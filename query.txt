@@ -1,0 +1,15 @@
+create database nifarm;
+
+create table member(
+	`index` int primary key auto_increment,
+	`id` varchar(30) unique,
+	`password` varchar(250),
+	`is_admin` boolean
+);
+
+create table check_form_info(
+	`index` int primary key auto_increment,
+	`category` int,
+	`content` text,
+	`scale` int
+);

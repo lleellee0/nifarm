@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="generator" content="Mobirise v3.8.5, mobirise.com">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="assets/images/kakaotalk-20161105-173132001-256x128-53.png" type="image/x-icon">
   <meta name="description" content="">
   
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;subset=latin">
@@ -20,66 +21,85 @@
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/socicon/css/socicon.min.css">
   <link rel="stylesheet" href="assets/animate.css/animate.min.css">
+  <link rel="stylesheet" href="assets/dataTables/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="assets/dropdown/css/style.css">
   <link rel="stylesheet" href="assets/theme/css/style.css">
+  <link rel="stylesheet" href="assets/mobirise3-blocks-plugin/css/style.css">
   <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <style>
+		  .filebox label {
+		  display: inline-block;
+		  padding: .5em .75em;
+		  color: #999;
+		  font-size: inherit;
+		  line-height: normal;
+		  vertical-align: middle;
+		  background-color: #fdfdfd;
+		  cursor: pointer;
+		  border: 1px solid #ebebeb;
+		  border-bottom-color: #e2e2e2;
+		  border-radius: .25em;
+		}
+		
+		.filebox input[type="file"] {  /* 파일 필드 숨기기 */
+		  position: absolute;
+		  width: 1px;
+		  height: 1px;
+		  padding: 0;
+		  margin: -1px;
+		  overflow: hidden;
+		  clip:rect(0,0,0,0);
+		  border: 0;
+		}
+  </style>
   
   
   
 </head>
 <body>
-<section id="menu-6">
+<%@include file="includes/navbar.jsp" %>
 
-    <nav class="navbar navbar-dropdown bg-color transparent navbar-fixed-top">
-        <div class="container">
-
-            <div class="mbr-table">
-                <div class="mbr-table-cell">
-
-                    <div class="navbar-brand">
-                        <a href="https://mobirise.com" class="navbar-logo"><img src="assets/images/logo.png" alt="Mobirise"></a>
-                        <a class="navbar-caption" href="https://mobirise.com">MOBIRISE</a>
-                    </div>
-
-                </div>
-                <div class="mbr-table-cell">
-
-                    <button class="navbar-toggler pull-xs-right hidden-md-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
-                        <div class="hamburger-icon"></div>
-                    </button>
-
-                    <ul class="nav-dropdown collapse pull-xs-right nav navbar-nav navbar-toggleable-sm" id="exCollapsingNavbar"><li class="nav-item"><a class="nav-link link" href="https://mobirise.com/">OVERVIEW</a></li><li class="nav-item dropdown"><a class="nav-link link dropdown-toggle" data-toggle="dropdown-submenu" href="https://mobirise.com/">FEATURES</a><div class="dropdown-menu"><a class="dropdown-item" href="https://mobirise.com/">Mobile friendly</a><a class="dropdown-item" href="https://mobirise.com/">Based on Bootstrap</a><div class="dropdown"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown-submenu" href="https://mobirise.com/">Trendy blocks</a><div class="dropdown-menu dropdown-submenu"><a class="dropdown-item" href="https://mobirise.com/">Image/content slider</a><a class="dropdown-item" href="https://mobirise.com/">Contact forms</a><a class="dropdown-item" href="https://mobirise.com/">Image gallery</a><a class="dropdown-item" href="https://mobirise.com/">Mobile menu</a><a class="dropdown-item" href="https://mobirise.com/">Google maps</a><a class="dropdown-item" href="https://mobirise.com/">Social buttons</a><a class="dropdown-item" href="https://mobirise.com/">Google fonts</a><a class="dropdown-item" href="https://mobirise.com/">Video background</a></div></div><a class="dropdown-item" href="https://mobirise.com/">Host anywhere</a></div></li><li class="nav-item dropdown"><a class="nav-link link dropdown-toggle" data-toggle="dropdown-submenu" href="https://mobirise.com/">HELP</a><div class="dropdown-menu"><a class="dropdown-item" href="http://forums.mobirise.com/">Forum</a><a class="dropdown-item" href="https://mobirise.com/">Tutorials</a><a class="dropdown-item" href="https://mobirise.com/">Contact us</a></div></li><li class="nav-item nav-btn"><a class="nav-link btn btn-white btn-white-outline" href="https://mobirise.com/">DOWNLOAD</a></li></ul>
-                    <button hidden="" class="navbar-toggler navbar-close" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
-                        <div class="close-icon"></div>
-                    </button>
-
-                </div>
-            </div>
-
-        </div>
-    </nav>
-
-</section>
-
-<section class="engine"><a rel="external" href="https://mobirise.com">free responsive web generator</a></section><section class="mbr-section mbr-section-hero mbr-section-full mbr-section-with-arrow mbr-after-navbar" id="header5-9" style="background-color: rgb(116, 226, 148);">
+<section class="engine"><a rel="external" href="https://mobirise.com">easy html web site building software download</a></section><section class="mbr-section extTable1 mbr-after-navbar" id="extTable1-m" style="background-color: rgb(150, 207, 167); padding-top: 120px; padding-bottom: 120px;">
 
     
 
-    <div class="mbr-table-cell">
-
-        <div class="container">
-            <div class="row">
-                <div class="mbr-section col-md-10 col-md-offset-1 text-xs-center">
-
-                    
-                    
-                    
-                </div>
-            </div>
-        </div>
+    <div class="container">
+        <h3 class="mbr-section-title display-2">TABLE</h3>
     </div>
 
-    <div class="mbr-arrow mbr-arrow-floating" aria-hidden="true"><a href="#content6-d"><i class="mbr-arrow-icon"></i></a></div>
+    <div class="container table-wrapper" data-search="true" search-text="Search:" info1-text="Showing" info2-text="entries" info3-text="(filtered from" info4-text="total entries)">
+        
+        <table class="table" cellspacing="0" width="100%">
+        <thead>
+        	<tr><th>번호</th><th>농장명</th><th>위치</th><th>규모</th><th>날짜</th><th>점검결과</th></tr>
+        </thead>
+	        <tbody>
+	        	<tr><td>1</td><td>우리농장</td><td>경기</td><td>중</td><td>2016-11-05</td><td>link</td></tr>
+				<tr><td>2</td><td>니네농장</td><td>광주</td><td>대</td><td>2013-12-05</td><td>link</td></tr>
+				<tr><td>3</td><td>앙기농장</td><td>부산</td><td>소</td><td>2016-11-15</td><td>link</td></tr>
+				<tr><td>4</td><td>모띠농장</td><td>서울</td><td>중</td><td>1993-06-03</td><td>link</td></tr>
+				<tr><td>5</td><td>헠헠농장</td><td>강원</td><td>대</td><td>2016-11-01</td><td>link</td></tr>
+				<tr><td>6</td><td>정묵농장</td><td>전북</td><td>대</td><td>2016-09-08</td><td>link</td></tr>
+				<tr><td>7</td><td>임정?농장</td><td>울산</td><td>소</td><td>2016-11-01</td><td>link</td></tr>
+				<tr><td>8</td><td>어임정~농장</td><td>제주</td><td>중</td><td>2016-11-02</td><td>link</td></tr>
+        	</tbody>
+        </table>
+    </div>
+    <div class="container">
+    	<div class="col-md-10"></div>
+    	<div class="col-md-2"><input type="button" class="nav-link btn btn-white btn-white-outline" value="add new" data-toggle="modal" data-target="#farmModal"></div>
+    </div>
+</section>
+
+<section class="mbr-section article mbr-section__container" id="content6-d" style="background-color: rgb(255, 255, 255); padding-top: 20px; padding-bottom: 20px;">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-6 lead"><p>차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1</p></div>
+            <div class="col-xs-12 col-md-6 lead"><p>차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2</p></div>
+        </div>
+    </div>
 
 </section>
 
@@ -87,12 +107,74 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-md-6 lead"><p>Make your own website in a few clicks! Mobirise helps you cut down development time by providing you with a flexible website editor with a drag and drop interface. MobiRise Website Builder creates responsive, retina and mobile friendly websites in a few clicks. Mobirise is one of the easiest website development tools available today. It also gives you the freedom to develop as many websites as you like given the fact that it is a desktop app.</p></div>
-            <div class="col-xs-12 col-md-6 lead"><p>Make your own website in a few clicks! Mobirise helps you cut down development time by providing you with a flexible website editor with a drag and drop interface. MobiRise Website Builder creates responsive, retina and mobile friendly websites in a few clicks. Mobirise is one of the easiest website development tools available today. It also gives you the freedom to develop as many websites as you like given the fact that it is a desktop app.</p></div>
+            <div class="col-xs-12 col-md-6 lead"><p>차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1</p></div>
+            <div class="col-xs-12 col-md-6 lead"><p>차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2</p></div>
         </div>
     </div>
 
 </section>
+
+<!-- 농장모달 -->
+<div class="modal fade" id="farmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Farm to Check List</h4>
+      </div>
+        <div class="form-table mbr-valign-top col-md-12  formblock" data-form-type="formoid" style="padding-top: 30px;padding-bottom: 20px;">
+                        	<div data-form-alert="true">
+                                <div hidden="" data-form-alert-success="true" class="alert alert-form alert-success text-xs-center">Thanks for filling out form!</div>
+                            </div>
+                            <form action="https://mobirise.com/" method="post" data-form-title="INTRO WITH FORM">
+                                    <div class="col-xs-12" style="padding-bottom: 5px;">
+                                         <input type="text" class="form-control" name="farmName" required="" data-form-field="farmName" placeholder="농장명">
+                                    </div>
+
+                                    <div class="col-xs-12" style="padding-bottom: 5px;"> 
+                                         <input type="text" id="datepicker" class="form-control" name="checkDate" required="" data-form-field="checkDate" placeholder="점검일">    
+                                    </div>
+
+                                    <div class="col-xs-12" style="padding-bottom: 5px;">
+                                         <select class="form-control" name="locktion">
+                                          <option>지역</option>
+										  <option>서울</option>
+										  <option>경기</option>
+										  <option>강원</option>
+										  <option>충남</option>
+										  <option>충북</option>
+										  <option>경북</option>
+										  <option>경남</option>
+										  <option>전북</option>
+										  <option>전남</option>
+										  <option>제주</option>
+										</select>
+                                    </div>
+
+                                    <div class="col-xs-12" style="padding-bottom: 5px;">
+                                         <select class="form-control" name="scale" id="scale">
+                                          <option>규모</option>
+										  <option>대규모</option>
+										  <option>중규모</option>
+										  <option>소규모</option>
+										</select>
+                                    </div>
+                                    <!-- 규모별 질문 -->
+                                    <div class="col-xs-12" style="margin-top: 20px;">
+                                    	<table id="scale-target" style="width:100%;">
+                                    		
+                                    	</table>
+                                    </div>
+                                    
+                            </form>
+                        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
   <script src="assets/web/assets/jquery/jquery.min.js"></script>
@@ -100,9 +182,85 @@
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="assets/smooth-scroll/SmoothScroll.js"></script>
   <script src="assets/viewportChecker/jquery.viewportchecker.js"></script>
+  <script src="assets/dataTables/jquery.dataTables.min.js"></script>
+  <script src="assets/dataTables/dataTables.bootstrap4.min.js"></script>
   <script src="assets/dropdown/js/script.min.js"></script>
   <script src="assets/touchSwipe/jquery.touchSwipe.min.js"></script>
   <script src="assets/theme/js/script.js"></script>
+  <script src="assets/mobirise3-blocks-plugin/js/script.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+  <script>
+  $(function() {
+	  $( "#datepicker" ).datepicker({
+	    dateFormat: 'yy-mm-dd'
+	  });
+	});
+  
+  $("#scale").change(function(){
+      console.log($(this).val());
+      makeForm($(this).val());
+});
+  
+function makeForm(scale) {
+	var request_scale = 0;
+	if(scale !== "규모") {
+		if(scale === "대규모")
+			request_scale = 3;
+		else if(scale === "중규모")
+			request_scale = 2;
+		else if(scale === "소규모")
+			request_scale = 1;
+		
+		$.ajax({
+		    url : "${path}inner/admin/api/check-form-info/" + request_scale,
+		    dataType : "json",
+		    type : "post",
+		    success: function(data) {
+		        $('#scale-target').empty();
+		        var code = "";
+		        var category = new Array(13);
+		        var table_header = "<tr><th style='width:45%;'>세부내용</th><th style='width:25%;'>점검기준</th><th style='width:5%;'>Y</th><th style='width:5%;'>P</th><th style='width:5%;'>N</th></tr>";
+		        category[0] += "<tr><td style='font-size:21px;padding-top:20px;'>1. 보안정책<td></tr>" + table_header;
+		        category[1] += "<tr><td style='font-size:21px;padding-top:20px;'>2. 정보보호조직<td></tr>" + table_header;
+		        category[2] += "<tr><td style='font-size:21px;padding-top:20px;'>3. 자산관리<td></tr>" + table_header;
+		        category[3] += "<tr><td style='font-size:21px;padding-top:20px;'>4. 인력보안<td></tr>" + table_header;
+		        category[4] += "<tr><td style='font-size:21px;padding-top:20px;'>5. 물리환경적보안<td></tr>" + table_header;
+		        category[5] += "<tr><td style='font-size:21px;padding-top:20px;'>6. 통신운영관리<td></tr>" + table_header;
+		        category[6] += "<tr><td style='font-size:21px;padding-top:20px;'>7. 접근통제<td></tr>" + table_header;
+		        category[7] += "<tr><td style='font-size:21px;padding-top:20px;'>8. 정보시스템도입 및 개발과 유지보수<td></tr>" + table_header;
+		        category[8] += "<tr><td style='font-size:21px;padding-top:20px;'>9. 정보보안 사고관리<td></tr>" + table_header;
+		        category[9] += "<tr><td style='font-size:21px;padding-top:20px;'>10. 업무연속성관리<td></tr>" + table_header;
+		        category[10] += "<tr><td style='font-size:21px;padding-top:20px;'>11. 암호통제<td></tr>" + table_header;
+		        category[11] += "<tr><td style='font-size:21px;padding-top:20px;'>12. 인증<td></tr>" + table_header;
+		        category[12] += "<tr><td style='font-size:21px;padding-top:20px;'>13. 시큐어 코딩<td></tr>" + table_header;
+		        console.log(Object.keys(data).length);
+		        for(var i = 0, len = Object.keys(data).length; i < len;i++) {
+		        	console.log(data[i][1]);
+		        	category[data[i][1]-1] += "<tr><td>" + data[i][2] + "</td><td>" + data[i][4] + "</td>" +
+		        		"<td><input type='radio' name='index_" + data[i][0] +"' value='Y'></td>" +
+		        		"<td><input type='radio' name='index_" + data[i][0] +"' value='P'></td>" +
+		        		"<td><input type='radio' name='index_" + data[i][0] +"' value='N'></td>" +
+		        		"<td><div class='filebox'><label for='file_index_" + data[i][0] + "'>업로드</label><input type='file' id='file_index_" + data[i][0] + "' name='file_index_" + data[i][0] + "'></td>" + 
+		        		"</tr>";
+		        }
+		        for(var i = 0; i < 13; i++) {
+		        	code += category[i];
+		        }
+				$('#scale-target').html(code);
+				console.log(data);
+		    },
+		    error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"error:"+error);
+		    }
+		}); 
+	}
+	else {
+		$('#scale-target').empty();
+	}
+	
+}
+  
+  </script>
   
   
   <input name="animation" type="hidden">
