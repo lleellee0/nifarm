@@ -1,0 +1,18 @@
+VERSION HISTORY
+
+
+v1.1
+---------------------------------------------------------------------
+
+- added Linux version.
+- fixed issue with rejected shares after devfee mining.
+- remove "-allpools 1" option if you use it and mine on miningpoolhub, suprnova, coinmine or nicehash pools.
+- added "XnSub" support for Nicehash.
+- fixed bugs.
+
+
+
+v1.0
+---------------------------------------------------------------------
+- First version.
+

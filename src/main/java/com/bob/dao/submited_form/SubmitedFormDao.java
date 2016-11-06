@@ -64,6 +64,35 @@ public class SubmitedFormDao {
 		return vo;
 	}
 	
+	public SubmitedFormVo selectByFarmInfoIndexAndFormCountAndCheckFormInfoIndex(final int farm_info_index, final int form_count, final int check_form_info_index) {
+		sql = new StringBuffer();
+		sql.append("SELECT * FROM ");
+		sql.append("submited_form WHERE ");
+		sql.append("`farm_info_index`=? AND `form_count`=? AND `check_form_info_index`=?");
+		
+		new AbstractDao() {
+			@Override
+			public void query() throws Exception {
+				pstmt = con.prepareStatement(sql.toString());
+				pstmt.setInt(1, farm_info_index);
+				pstmt.setInt(2, form_count);
+				pstmt.setInt(3, check_form_info_index);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					vo.setIndex(rs.getInt(1));
+					vo.setFarm_info_index(rs.getInt(2));
+					vo.setForm_count(rs.getInt(3));
+					vo.setCheck_form_info_index(rs.getInt(4));
+					vo.setYpn(rs.getString(5));
+					vo.setOriginal_file_name(rs.getString(6));
+					vo.setFile_hash(rs.getString(7));
+				}
+			}
+		}.execute();
+		return vo;
+	}
+	
 
 /*	
 	public List<SubmitedFormVo> selectByScale(final int scale) {
@@ -115,11 +144,11 @@ public class SubmitedFormDao {
 			}
 		}.execute();
 	}
-	/*
-	public void update(final BookVo vo) {
+	
+	public void update(final SubmitedFormVo vo) {
 		sql = new StringBuffer();
-		sql.append("UPDATE book ");
-		sql.append("SET rfid=?, title=?, writer=?, publisher=?, content=?, img=?, borrowed_member_index=? ");
+		sql.append("UPDATE submited_form ");
+		sql.append("SET farm_info_index=?, form_count=?, check_form_info_index=?, ypn=?, original_file_name=?, file_hash=? ");
 		sql.append("WHERE `index`=?");
 		
 		System.out.println(sql);
@@ -128,20 +157,19 @@ public class SubmitedFormDao {
 			@Override
 			public void query() throws Exception {
 				pstmt = con.prepareStatement(sql.toString());
-				pstmt.setInt(1, vo.getRfid());
-				pstmt.setString(2, vo.getTitle());
-				pstmt.setString(3, vo.getWriter());
-				pstmt.setString(4, vo.getPublisher());
-				pstmt.setString(5, vo.getContent());
-				pstmt.setString(6, vo.getImg());
-				pstmt.setInt(7, vo.getBorrowed_member_index());
-				pstmt.setInt(8, vo.getIndex());
+				pstmt.setInt(1, vo.getFarm_info_index());
+				pstmt.setInt(2, vo.getForm_count());
+				pstmt.setInt(3, vo.getCheck_form_info_index());
+				pstmt.setString(4, vo.getYpn());
+				pstmt.setString(5, vo.getOriginal_file_name());
+				pstmt.setString(6, vo.getFile_hash());
+				pstmt.setInt(7, vo.getIndex());
 				
 				pstmt.executeUpdate();
 			}
 		}.execute();
 	}
-	*/
+	
 	/*
 	public List<BookVo> selectAll() {
 		sql = new StringBuffer();

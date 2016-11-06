@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bob.dao.check_form_info.CheckFormInfoDao;
 import com.bob.dao.check_form_info.CheckFormInfoVo;
+import com.bob.dao.farm_info.FarmInfoDao;
+import com.bob.dao.farm_info.FarmInfoVo;
 import com.bob.dao.member.MemberDao;
 import com.bob.dao.member.MemberVo;
 
@@ -102,6 +104,30 @@ public class HomeController {
 		}
 		return hashmap;
 	}
-	
+	@ResponseBody
+	@RequestMapping(value = "/inner/admin/api/dataTable", method = RequestMethod.POST)
+	public HashMap<String, Object> dataTableData() {
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		FarmInfoDao fidao = new FarmInfoDao();
+		List<FarmInfoVo> list = fidao.selectAll();
+		
+		for(int i = 0; i < list.size(); i++) {
+			FarmInfoVo vo = list.get(i);
+			String arr[] = new String[6];
+			arr[0] = Integer.toString(vo.getIndex());
+			arr[1] = vo.getFarm_name();
+			arr[2] = vo.getLocation();
+			switch(vo.getScale()) {
+			case 1: arr[3] = "소";break;
+			case 2: arr[3] = "중";break;
+			case 3: arr[3] = "대";break;
+			}
+			 
+			arr[4] = vo.getLast_check_date();
+			arr[5] = "" + vo.getCheck_count();
+			hashmap.put(Integer.toString(i), arr);
+		}
+		return hashmap;
+	}
 	
 }

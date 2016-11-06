@@ -11,6 +11,7 @@ public class SingletonSetting {
 	private String databaseName = "nifarm" + "?useUnicode=true&characterEncoding=utf8";
 	private String userName = "root";
 	private String userPassword = "mysql123"; // Clab에 있는 노트북
+	private String filePath = "C:\\Users\\jun\\Documents\\nifarm_project\\src\\main\\webapp\\WEB-INF\\files\\";
 	
 	private int pageSize = 15;
 	
@@ -26,6 +27,7 @@ public class SingletonSetting {
 	public String getDatabaseName() { return this.databaseName; }
 	public String getUserName() { return this.userName; }
 	public String getUserPassword() { return this.userPassword; }
+	public String getFilePath() { return this.filePath; }
 	
 	public int getPageSize() { return this.pageSize; }
 	

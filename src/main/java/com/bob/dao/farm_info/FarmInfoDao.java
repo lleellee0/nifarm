@@ -139,11 +139,11 @@ public class FarmInfoDao {
 		}.execute();
 	}
 	
-	/*
-	public List<BookVo> selectAll() {
+	
+	public List<FarmInfoVo> selectAll() {
 		sql = new StringBuffer();
 		sql.append("SELECT * FROM ");
-		sql.append("book");
+		sql.append("farm_info");
 		
 		new AbstractDao() {
 			@Override
@@ -153,23 +153,22 @@ public class FarmInfoDao {
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
-					BookVo vo = new BookVo(); 
+					FarmInfoVo vo = new FarmInfoVo(); 
 					vo.setIndex(rs.getInt(1));
-					vo.setRfid(rs.getInt(2));
-					vo.setTitle(rs.getString(3));
-					vo.setWriter(rs.getString(4));
-					vo.setPublisher(rs.getString(5));
-					vo.setContent(rs.getString(6));
-					vo.setImg(rs.getString(7));
-					vo.setBorrowed_member_index(rs.getInt(8));
-					vo.setDue_date(rs.getString(9));
+					vo.setMember_index(rs.getInt(2));
+					vo.setFarm_name(rs.getString(3));
+					vo.setLast_check_date(rs.getString(4));
+					vo.setLocation(rs.getString(5));
+					vo.setScale(rs.getInt(6));
+					vo.setCheck_count(rs.getInt(7));
+					
 					list.add(vo);
 				}
 			}
 		}.execute();
 		return list;
 	}
-	*/
+	
 	
 	public int getCount() {
 		sql = new StringBuffer();

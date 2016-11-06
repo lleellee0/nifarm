@@ -1,7 +1,10 @@
 package com.bob.mook;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Iterator;
 
@@ -28,13 +31,14 @@ import com.bob.dao.submited_form.SubmitedFormVo;
 public class FileController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
+	private static final SingletonSetting ssi = SingletonSetting.getInstance();
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 * @throws UnsupportedEncodingException 
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/inner/submit-checklist", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/inner/submit-checklist", method = RequestMethod.POST, produces = "application/json; charset=utf8")
     public Object uploadFile(MultipartHttpServletRequest request) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
 		// 농장주 ID 검색 후 있으면 member의 index에 저장해주고 없으면 ㅌㅌ하자
@@ -48,7 +52,8 @@ public class FileController {
 		int farm_info_index = 0;
 		int form_count = 0;
 		
-		int target_farm_info_index = 0;
+		int current_farm_info_index = 0;
+		int current_form_count = 0;
 		
         while(paramNames.hasMoreElements()) {
             String paramName = (String)paramNames.nextElement();
@@ -65,8 +70,10 @@ public class FileController {
         		scale = paramValues[0];
         	}
         } 
+        System.out.println("id :" + farmerId);
         if(!isExistFarm(farmerId)) {
         	// 농장이 없으니까 만들어줘야지 (insert into farm_info)
+        	System.out.println("이름없네? 농장 ㄱ");
         	FarmInfoDao fidao = new FarmInfoDao();
         	FarmInfoVo fivo = new FarmInfoVo();
         	
@@ -102,8 +109,8 @@ public class FileController {
         
         FarmInfoDao fidao = new FarmInfoDao();
         MemberDao mdao = new MemberDao();
-        farm_info_index = fidao.selectByMemberIndex(mdao.selectById(farmerId).getIndex()).getIndex();
-        form_count = fidao.selectByMemberIndex(mdao.selectById(farmerId).getIndex()).getCheck_count();
+        current_farm_info_index = farm_info_index = fidao.selectByMemberIndex(mdao.selectById(farmerId).getIndex()).getIndex();
+        current_form_count = form_count = fidao.selectByMemberIndex(mdao.selectById(farmerId).getIndex()).getCheck_count();
         		
 		SubmitedFormDao sfdao = new SubmitedFormDao();
 		
@@ -113,7 +120,6 @@ public class FileController {
         while(paramNames.hasMoreElements()) { 
             String paramName = (String)paramNames.nextElement();
             String[] paramValues = request.getParameterValues(paramName);
-            System.out.println("Header : " + paramName); 
             
             if(paramName.contains("file_")) {
             	// 파일은 아래서 일괄적으로 처리
@@ -140,11 +146,21 @@ public class FileController {
         	while(itr.hasNext()) {
         		MultipartFile mpf = request.getFile(itr.next());
         		System.out.println(mpf.getName());	// name 이름
+        		
+        		int current_check_form_info_index = Integer.parseInt(mpf.getName().substring(5));
+        		SubmitedFormVo sfvo = sfdao.selectByFarmInfoIndexAndFormCountAndCheckFormInfoIndex(current_farm_info_index, current_form_count, current_check_form_info_index);
+        		
+        		sfvo.setOriginal_file_name(mpf.getOriginalFilename());
+        		String filehash = getSHA256(mpf.getOriginalFilename() + "sssssssaaaaaaaaallllllllllllllttttttttt" + Math.random() * Math.random());
+        		sfvo.setFile_hash(filehash);
+
+        		sfdao.update(sfvo);
+        		
                 System.out.println(mpf.getOriginalFilename() +" uploaded!");
                 try {
                     //just temporary save file info into ufile
-                    System.out.println("file length : " + mpf.getBytes().length);
-                    System.out.println("file name : " + mpf.getOriginalFilename());
+                	File f = multipartToFile(mpf, filehash);
+                	
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                     e.printStackTrace();
@@ -153,7 +169,7 @@ public class FileController {
         	return true;
         } else {
         	System.out.println("No File!");
-            return false;
+            return true;
         }
     }
 	
@@ -166,5 +182,32 @@ public class FileController {
 			return true;
 		
 		return false;
+	}
+	
+	public String getSHA256(String str){
+		String SHA = ""; 
+		try{
+			MessageDigest sh = MessageDigest.getInstance("SHA-256"); 
+			sh.update(str.getBytes()); 
+			byte byteData[] = sh.digest();
+			StringBuffer sb = new StringBuffer(); 
+			for(int i = 0 ; i < byteData.length ; i++){
+				sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+			}
+			SHA = sb.toString();
+			
+		}catch(NoSuchAlgorithmException e){
+			e.printStackTrace(); 
+			SHA = null; 
+		}
+		return SHA;
+	}
+	
+	// 호출하면 멀티파트 파일이 파일로 저장됨.
+	public File multipartToFile(MultipartFile multipart, String filehash) throws IllegalStateException, IOException 
+	{
+	        File convFile = new File( ssi.getFilePath() + filehash);
+	        multipart.transferTo(convFile);
+	        return convFile;
 	}
 }

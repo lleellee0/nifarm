@@ -138,6 +138,20 @@
 			filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
 			opacity: 1;
 		}
+		
+		
+		
+		
+	#scaleChartdiv {
+		width		: 100%;
+		height		: 500px;
+		font-size	: 14px;
+	}
+	#locationChartdiv {
+		width		: 100%;
+		height		: 500px;
+		font-size	: 14px;
+	}				
   </style>
   
   
@@ -161,14 +175,7 @@
         	<tr><th>번호</th><th>농장명</th><th>위치</th><th>규모</th><th>날짜</th><th>점검결과</th></tr>
         </thead>
 	        <tbody>
-	        	<tr><td>1</td><td>우리농장</td><td>경기</td><td>중</td><td>2016-11-05</td><td>link</td></tr>
-				<tr><td>2</td><td>니네농장</td><td>광주</td><td>대</td><td>2013-12-05</td><td>link</td></tr>
-				<tr><td>3</td><td>앙기농장</td><td>부산</td><td>소</td><td>2016-11-15</td><td>link</td></tr>
-				<tr><td>4</td><td>모띠농장</td><td>서울</td><td>중</td><td>1993-06-03</td><td>link</td></tr>
-				<tr><td>5</td><td>헠헠농장</td><td>강원</td><td>대</td><td>2016-11-01</td><td>link</td></tr>
-				<tr><td>6</td><td>정묵농장</td><td>전북</td><td>대</td><td>2016-09-08</td><td>link</td></tr>
-				<tr><td>7</td><td>임정?농장</td><td>울산</td><td>소</td><td>2016-11-01</td><td>link</td></tr>
-				<tr><td>8</td><td>어임정~농장</td><td>제주</td><td>중</td><td>2016-11-02</td><td>link</td></tr>
+
         	</tbody>
         </table>
     </div>
@@ -182,19 +189,8 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-md-6 lead"><p>차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1</p></div>
-            <div class="col-xs-12 col-md-6 lead"><p>차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2</p></div>
-        </div>
-    </div>
-
-</section>
-
-<section class="mbr-section article mbr-section__container" id="content6-d" style="background-color: rgb(255, 255, 255); padding-top: 20px; padding-bottom: 20px;">
-
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-md-6 lead"><p>차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1차트1</p></div>
-            <div class="col-xs-12 col-md-6 lead"><p>차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2차트2</p></div>
+            <div class="col-xs-12 col-md-6 lead"><div id="scaleChartdiv"></div></div>
+            <div class="col-xs-12 col-md-6 lead"><div id="locationChartdiv"></div></div>
         </div>
     </div>
 
@@ -258,7 +254,6 @@
                             </form>
                         </div>
       <div class="modal-footer">
-     	 <pre id='result'></pre>
       </div>
     </div>
   </div>
@@ -281,6 +276,32 @@
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js'></script>
   
   <script>
+  $(document).ready(function() {
+	  $.ajax({
+		    url : "${path}inner/admin/api/dataTable",
+		    dataType : "json",
+		    type : "post",
+		    success: function(data) {
+		        var t = $('.dataTable').DataTable();
+		        
+		        console.log(Object.keys(data).length);
+		        for(var i = 0, len = Object.keys(data).length; i < len;i++) {
+		        	t.row.add( [
+		        	            data[i][0],
+		        	            data[i][1],
+		        	            data[i][2],
+		        	            data[i][3],
+		        	            data[i][4],
+		        	            data[i][5]
+		        	]).draw(false);
+		        }
+		    },
+		    error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"error:"+error);
+		    }
+		});
+	} );
+  
   // Ajax 폼 전송
  $(function() {
 		$('#submitForm').ajaxForm({
@@ -288,12 +309,10 @@
 			processData: false,
 			dataType: 'json',
 			beforeSend: function() {
-				$('#result').append( "beforeSend...\n" );
+				console.log('성공했을때..');
 			},
 			complete: function(data) {
-				$('#result')
-					.append( "complete...\n" )
-					.append( JSON.stringify( data.responseJSON ) + "\n" );
+				console.log('실패했을때.....');
 			}
 		});
 	});
@@ -370,6 +389,79 @@ function makeForm(scale) {
 	
 }
   
+  </script>
+  
+  
+  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+  <script>
+  var scaleChart = AmCharts.makeChart( "scaleChartdiv", {
+	  "type": "pie",
+	  "theme": "light",
+	  "dataProvider": [ {
+	    "country": "대규모",
+	    "litres": 1
+	  }, {
+	    "country": "중규모",
+	    "litres": 4
+	  }, {
+	    "country": "소규모",
+	    "litres": 1
+	  } ],
+	  "valueField": "litres",
+	  "titleField": "country",
+	   "balloon":{
+	   "fixedPosition":true
+	  },
+	  "export": {
+	    "enabled": true
+	  }
+	} );
+  var locationChart = AmCharts.makeChart( "locationChartdiv", {
+	  "type": "pie",
+	  "theme": "light",
+	  "dataProvider": [ {
+	    "country": "서울",
+	    "litres": 1
+	  }, {
+	    "country": "강원",
+	    "litres": 3
+	  }, {
+	    "country": "경기",
+	    "litres": 1
+	  }, {
+		"country": "충남",
+	 	"litres": 1
+	  }, {
+		"country": "충북",
+		"litres": 0
+	  }, {
+		"country": "경북",
+		"litres": 0
+	  }, {
+		"country": "경남",
+		"litres": 0
+	  }, {
+		"country": "전북",
+		"litres": 0
+	  }, {
+		"country": "전남",
+		"litres": 0
+	  }, {
+		"country": "제주",
+		"litres": 0
+	  } ],
+	  
+	  "valueField": "litres",
+	  "titleField": "country",
+	   "balloon":{
+	   "fixedPosition":true
+	  },
+	  "export": {
+	    "enabled": true
+	  }
+	} );
   </script>
   
   
