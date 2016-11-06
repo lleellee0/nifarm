@@ -39,6 +39,7 @@ public class FarmInfoDao {
 	}
 	
 	public FarmInfoVo selectByMemberIndex(final int index) {
+		sql = new StringBuffer();
 		sql.append("SELECT * FROM ");
 		sql.append("farm_info WHERE ");
 		sql.append("`member_index`=?");

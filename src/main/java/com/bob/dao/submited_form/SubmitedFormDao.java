@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bob.dao.AbstractDao;
-import com.kgucs.dao.book.BookVo;
 
 public class SubmitedFormDao {
 	StringBuffer sql = new StringBuffer();
@@ -98,20 +97,19 @@ public class SubmitedFormDao {
 	public void insert(final SubmitedFormVo vo) {
 		sql = new StringBuffer();
 		sql.append("INSERT INTO submited_form ");
-		sql.append("(`farm_info_index`) ");
-		sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");
+		sql.append("(`farm_info_index`, `form_count`, `check_form_info_index`, `ypn`, `original_file_name`, `file_hash`) ");
+		sql.append("VALUES (?, ?, ?, ?, ?, ?)");
 		
 		new AbstractDao() {
 			@Override
 			public void query() throws Exception {
 				pstmt = con.prepareStatement(sql.toString());
-				pstmt.setInt(1, vo.getRfid());
-				pstmt.setString(2, vo.getTitle());
-				pstmt.setString(3, vo.getWriter());
-				pstmt.setString(4, vo.getPublisher());
-				pstmt.setString(5, vo.getContent());
-				pstmt.setString(6, vo.getImg());
-				pstmt.setInt(7, vo.getBorrowed_member_index());
+				pstmt.setInt(1, vo.getFarm_info_index());
+				pstmt.setInt(2, vo.getForm_count());
+				pstmt.setInt(3, vo.getCheck_form_info_index());
+				pstmt.setString(4, vo.getYpn());
+				pstmt.setString(5, vo.getOriginal_file_name());
+				pstmt.setString(6, vo.getFile_hash());
 				
 				pstmt.executeUpdate();
 			}

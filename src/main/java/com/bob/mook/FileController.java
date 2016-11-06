@@ -19,6 +19,7 @@ import com.bob.dao.farm_info.FarmInfoVo;
 import com.bob.dao.member.MemberDao;
 import com.bob.dao.member.MemberVo;
 import com.bob.dao.submited_form.SubmitedFormDao;
+import com.bob.dao.submited_form.SubmitedFormVo;
 
 /**
  * Handles requests for the application home page.
@@ -44,9 +45,12 @@ public class FileController {
 		String location = null;
 		String scale = null;
 		
+		int farm_info_index = 0;
+		int form_count = 0;
+		
 		int target_farm_info_index = 0;
 		
-        while(paramNames.hasMoreElements()) { 
+        while(paramNames.hasMoreElements()) {
             String paramName = (String)paramNames.nextElement();
             String[] paramValues = request.getParameterValues(paramName);
             if(paramName.matches("farmName")) {
@@ -84,6 +88,7 @@ public class FileController {
         	
         	fidao.insert(fivo);
         } else {
+        	// 이미 체크를 한번 했던 농장이니까 마지막 체크 일자 수정, count 증가
         	FarmInfoDao fidao = new FarmInfoDao();
         	MemberDao mdao = new MemberDao();
         	FarmInfoVo fivo = fidao.selectByMemberIndex((mdao.selectById(farmerId).getIndex()));
@@ -94,15 +99,18 @@ public class FileController {
         	
         	fidao.update(fivo);
         }
-/*		
+        
+        FarmInfoDao fidao = new FarmInfoDao();
+        MemberDao mdao = new MemberDao();
+        farm_info_index = fidao.selectByMemberIndex(mdao.selectById(farmerId).getIndex()).getIndex();
+        form_count = fidao.selectByMemberIndex(mdao.selectById(farmerId).getIndex()).getCheck_count();
+        		
 		SubmitedFormDao sfdao = new SubmitedFormDao();
 		
 		FarmInfoVo fivo = new FarmInfoVo();
 		
 		paramNames = request.getParameterNames(); 
         while(paramNames.hasMoreElements()) { 
-        	
-        	
             String paramName = (String)paramNames.nextElement();
             String[] paramValues = request.getParameterValues(paramName);
             System.out.println("Header : " + paramName); 
@@ -111,35 +119,22 @@ public class FileController {
             	// 파일은 아래서 일괄적으로 처리
             	continue;
             } else if(paramName.contains("ypn_")) {
-            	sfdao.s
-            	paramValues[0];
-            } else {
-            	if(paramName.matches("farmName")) {
-            		
-            	} else if(paramName.matches("farmerId")) {
-            		
-            	} else if(paramName.matches("checkDate")) {
-            		
-            	} else if(paramName.matches("location")) {
-            		
-            	} else if(paramName.matches("scale")) {
-            		
-            	}
+            	SubmitedFormVo sfvo = new SubmitedFormVo();
+            	sfvo.setFarm_info_index(farm_info_index);
+            	sfvo.setForm_count(form_count);
+            	sfvo.setCheck_form_info_index(Integer.parseInt(paramName.substring(4)));
+            	sfvo.setYpn(paramValues[0]);
+            	sfvo.setOriginal_file_name("");
+            	sfvo.setFile_hash("");
+            	sfdao.insert(sfvo);
             }
+        } 
         
-                if (paramValues.length == 1) { 
-                    String paramValue = paramValues[0]; 
-                    if (paramValue.length() == 0) 
-                        System.out.println("Value : No Value"); 
-                    else 
-                       System.out.println(paramValue); 
-                } else { 
-                    for(int i=0; i<paramValues.length; i++) { 
-                        System.out.println("Value : " + paramValues[i]); 
-                    } 
-                } 
-            } 
-		
+        
+        /*
+         * 파일 업로드 - 앞쪽에서 submited_form에 insert는 끝났기 때문에 update만 시켜주면 됨.
+         */
+
         Iterator<String> itr =  request.getFileNames();
         if(itr.hasNext()) {
         	while(itr.hasNext()) {
@@ -160,8 +155,6 @@ public class FileController {
         	System.out.println("No File!");
             return false;
         }
-        */
-        return true;
     }
 	
 	private boolean isExistFarm(String farmerId) {

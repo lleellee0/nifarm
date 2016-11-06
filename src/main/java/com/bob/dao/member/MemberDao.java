@@ -61,9 +61,10 @@ public class MemberDao {
 	}
 	
 	public MemberVo selectById(final String id) {
+		sql = new StringBuffer();
 		sql.append("SELECT * FROM ");
-		sql.append("member WHERE ");
-		sql.append("`id`=?");
+		sql.append("member WHERE");
+		sql.append("`id` = ?");
 		
 		new AbstractDao() {
 			@Override
