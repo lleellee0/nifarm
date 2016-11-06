@@ -5,6 +5,8 @@ public class MemberVo {
 	String id;
 	String password;
 	boolean isAdmin;
+	String name;
+	
 	public int getIndex() {
 		return index;
 	}
@@ -28,6 +30,12 @@ public class MemberVo {
 	}
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

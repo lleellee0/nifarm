@@ -14,6 +14,31 @@ create table check_form_info(
 	`scale` int
 );
 
+create table farm_info(
+	`index` int primary key auto_increment,
+	`member_index` int,
+	`farm_name` varchar(100),
+	`last_check_date` date,
+	`location` varchar(30),
+	`scale` int,
+	`check_count` int
+);
+
+check_count로 해당 농장이 몇번째 점검인지 확인
+밑의 submited_form의 form_count는 이 count 값을 1 더해준 후 넣어줌. 
+
 create table submited_form (
 	`index` int primary key auto_increment,
-	`
+	`farm_info_index` int,
+	`form_count` int,
+	`check_form_info_index` int,
+	`ypn` varchar(10),
+	`original_file_name` varchar(250),
+	`file_hash` varchar(250)
+);
+
+create table file (
+	`index` int primary key auto_increment,
+	`file_hash` varchar(250),
+	`file_path` varchar(250)
+);

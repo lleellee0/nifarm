@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("utf-8"); %>
+<% response.setContentType("text/html; charset=utf-8"); %>
 
 <!DOCTYPE html>
 <html>
@@ -223,7 +225,7 @@
                                     </div>
 
                                     <div class="col-xs-12" style="padding-bottom: 5px;">
-                                         <select class="form-control" name="locktion">
+                                         <select class="form-control" name="location">
                                           <option>지역</option>
 										  <option>서울</option>
 										  <option>경기</option>
@@ -282,7 +284,7 @@
   // Ajax 폼 전송
  $(function() {
 		$('#submitForm').ajaxForm({
-			contentType: false,
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			processData: false,
 			dataType: 'json',
 			beforeSend: function() {
@@ -345,10 +347,10 @@ function makeForm(scale) {
 		        	console.log(data[i][1]);
 		        	category[data[i][1]-1] += "<tr><td>" + data[i][2] + 
 		        	"</td><td><a href='#' data-tooltip='" + data[i][5] + "'><span class='glyphicon glyphicon-info-sign' aria-hidden='true'></span></a></td><td>" + data[i][4] + "</td>" +
-		        		"<td><input type='radio' name='index_" + data[i][0] +"' value='Y'></td>" +
-		        		"<td><input type='radio' name='index_" + data[i][0] +"' value='P'></td>" +
-		        		"<td><input type='radio' name='index_" + data[i][0] +"' value='N'></td>" +
-		        		"<td><div class='filebox'><label for='file_index_" + data[i][0] + "'>업로드</label><input type='file' id='file_index_" + data[i][0] + "' name='file_index_" + data[i][0] + "'></td>" + 
+		        		"<td><input type='radio' name='ypn_" + data[i][0] +"' value='Y'></td>" +
+		        		"<td><input type='radio' name='ypn_" + data[i][0] +"' value='P'></td>" +
+		        		"<td><input type='radio' name='ypn_" + data[i][0] +"' value='N'></td>" +
+		        		"<td><div class='filebox'><label for='file_" + data[i][0] + "'>업로드</label><input type='file' id='file_" + data[i][0] + "' name='file_" + data[i][0] + "'></td>" + 
 		        		"</tr>";
 		        }
 		        for(var i = 0; i < 13; i++) {

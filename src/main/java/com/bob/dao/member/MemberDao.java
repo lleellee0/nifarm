@@ -29,6 +29,7 @@ public class MemberDao {
 					mv.setId(rs.getString(2));
 					mv.setPassword(rs.getString(3));
 					mv.setAdmin((rs.getBoolean(4)));
+					mv.setName(rs.getString(5));
 				}
 			}
 		}.execute();
@@ -52,6 +53,31 @@ public class MemberDao {
 					mv.setId(rs.getString(2));
 					mv.setPassword(rs.getString(3));
 					mv.setAdmin((rs.getBoolean(4)));
+					mv.setName(rs.getString(5));
+				}
+			}
+		}.execute();
+		return mv;
+	}
+	
+	public MemberVo selectById(final String id) {
+		sql.append("SELECT * FROM ");
+		sql.append("member WHERE ");
+		sql.append("`id`=?");
+		
+		new AbstractDao() {
+			@Override
+			public void query() throws Exception {
+				pstmt = con.prepareStatement(sql.toString());
+				pstmt.setString(1, id);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					mv.setIndex(rs.getInt(1));
+					mv.setId(rs.getString(2));
+					mv.setPassword(rs.getString(3));
+					mv.setAdmin((rs.getBoolean(4)));
+					mv.setName(rs.getString(5));
 				}
 			}
 		}.execute();
