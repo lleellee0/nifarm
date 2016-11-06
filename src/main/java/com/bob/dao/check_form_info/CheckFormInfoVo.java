@@ -6,6 +6,8 @@ public class CheckFormInfoVo {
 	String content;
 	int scale;
 	String criteria;
+	String example;
+	
 	public int getIndex() {
 		return index;
 	}
@@ -35,6 +37,12 @@ public class CheckFormInfoVo {
 	}
 	public void setCriteria(String criteria) {
 		this.criteria = criteria;
+	}
+	public String getExample() {
+		return example;
+	}
+	public void setExample(String example) {
+		this.example = example;
 	}
 
 	

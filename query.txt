@@ -13,3 +13,7 @@ create table check_form_info(
 	`content` text,
 	`scale` int
 );
+
+create table submited_form (
+	`index` int primary key auto_increment,
+	`

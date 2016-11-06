@@ -1,9 +1,8 @@
 package com.bob.mook;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bob.dao.check_form_info.CheckFormInfoDao;
 import com.bob.dao.check_form_info.CheckFormInfoVo;
@@ -93,14 +94,17 @@ public class HomeController {
 		
 		for(int i = 0; i < list.size(); i++) {
 			CheckFormInfoVo vo = list.get(i);
-			String arr[] = new String[5];
+			String arr[] = new String[6];
 			arr[0] = Integer.toString(vo.getIndex());
 			arr[1] = Integer.toString(vo.getCategory());
 			arr[2] = vo.getContent();
 			arr[3] = Integer.toString(vo.getScale());
 			arr[4] = vo.getCriteria();
+			arr[5] = vo.getExample();
 			hashmap.put(Integer.toString(i), arr);
 		}
 		return hashmap;
 	}
+	
+	
 }

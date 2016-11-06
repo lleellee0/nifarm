@@ -28,6 +28,27 @@
   <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <style>
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('assets/fonts/glyphicons-halflings-regular.eot');
+  src: url('assets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('assets/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('assets/fonts/glyphicons-halflings-regular.woff') format('woff'), url('assets/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('sassets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-info-sign:before {
+  content: "\e086";
+}
+  
 		  .filebox label {
 		  display: inline-block;
 		  padding: .5em .75em;
@@ -51,6 +72,69 @@
 		  overflow: hidden;
 		  clip:rect(0,0,0,0);
 		  border: 0;
+		}
+		
+		/* 툴팁 */
+		[data-tooltip] {
+			position: relative;
+			z-index: 2;
+			cursor: pointer;
+		}
+		
+		
+		[data-tooltip]:before,
+		[data-tooltip]:after {
+		  visibility: hidden;
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+			filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+			opacity: 0;
+			pointer-events: none;
+		}
+		
+		
+		[data-tooltip]:before {
+			position: absolute;
+			bottom: 150%;
+			left: 50%;
+			margin-bottom: 5px;
+			margin-left: -80px;
+			padding: 7px;
+			width: 160px;
+			-webkit-border-radius: 3px;
+			-moz-border-radius:    3px;
+			border-radius:         3px;
+			background-color: #000;
+			background-color: hsla(0, 0%, 20%, 1);
+			color: #fff;
+			content: attr(data-tooltip);
+			text-align: center;
+			font-size: 14px;
+			line-height: 1.2;
+		}
+		
+		
+		[data-tooltip]:after {
+			position: absolute;
+			bottom: 150%;
+			left: 50%;
+			margin-left: -5px;
+			width: 0;
+			border-top: 5px solid #000;
+			border-top: 5px solid hsla(0, 0%, 20%, 1);
+			border-right: 5px solid transparent;
+			border-left: 5px solid transparent;
+			content: " ";
+			font-size: 0;
+			line-height: 0;
+		}
+		
+		
+		[data-tooltip]:hover:before,
+		[data-tooltip]:hover:after {
+			visibility: visible;
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+			filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+			opacity: 1;
 		}
   </style>
   
@@ -126,9 +210,12 @@
                         	<div data-form-alert="true">
                                 <div hidden="" data-form-alert-success="true" class="alert alert-form alert-success text-xs-center">Thanks for filling out form!</div>
                             </div>
-                            <form action="https://mobirise.com/" method="post" data-form-title="INTRO WITH FORM">
+                            <form id="submitForm" action="submit-checklist" method="post" enctype="multipart/form-data" data-form-title="INTRO WITH FORM">
                                     <div class="col-xs-12" style="padding-bottom: 5px;">
                                          <input type="text" class="form-control" name="farmName" required="" data-form-field="farmName" placeholder="농장명">
+                                    </div>
+                                    <div class="col-xs-12" style="padding-bottom: 5px;">
+                                         <input type="text" class="form-control" name="farmerId" required="" data-form-field="farmerId" placeholder="농장주 ID">
                                     </div>
 
                                     <div class="col-xs-12" style="padding-bottom: 5px;"> 
@@ -165,11 +252,11 @@
                                     		
                                     	</table>
                                     </div>
-                                    
+                                    <input id="form-submit-button" type="submit" value="Submit" style="float:right;" class="btn btn-primary">
                             </form>
                         </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Submit</button>
+     	 <pre id='result'></pre>
       </div>
     </div>
   </div>
@@ -189,7 +276,27 @@
   <script src="assets/theme/js/script.js"></script>
   <script src="assets/mobirise3-blocks-plugin/js/script.js"></script>
   <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js'></script>
+  
   <script>
+  // Ajax 폼 전송
+ $(function() {
+		$('#submitForm').ajaxForm({
+			contentType: false,
+			processData: false,
+			dataType: 'json',
+			beforeSend: function() {
+				$('#result').append( "beforeSend...\n" );
+			},
+			complete: function(data) {
+				$('#result')
+					.append( "complete...\n" )
+					.append( JSON.stringify( data.responseJSON ) + "\n" );
+			}
+		});
+	});
+
+  
   $(function() {
 	  $( "#datepicker" ).datepicker({
 	    dateFormat: 'yy-mm-dd'
@@ -219,7 +326,7 @@ function makeForm(scale) {
 		        $('#scale-target').empty();
 		        var code = "";
 		        var category = new Array(13);
-		        var table_header = "<tr><th style='width:45%;'>세부내용</th><th style='width:25%;'>점검기준</th><th style='width:5%;'>Y</th><th style='width:5%;'>P</th><th style='width:5%;'>N</th></tr>";
+		        var table_header = "<tr><th style='width:40%;'>세부내용</th><th style='width:5%;'></th><th style='width:30%;'>점검기준</th><th style='width:5%;'>Y</th><th style='width:5%;'>P</th><th style='width:5%;'>N</th><th style='width:10%;'></th></tr>";
 		        category[0] += "<tr><td style='font-size:21px;padding-top:20px;'>1. 보안정책<td></tr>" + table_header;
 		        category[1] += "<tr><td style='font-size:21px;padding-top:20px;'>2. 정보보호조직<td></tr>" + table_header;
 		        category[2] += "<tr><td style='font-size:21px;padding-top:20px;'>3. 자산관리<td></tr>" + table_header;
@@ -236,7 +343,8 @@ function makeForm(scale) {
 		        console.log(Object.keys(data).length);
 		        for(var i = 0, len = Object.keys(data).length; i < len;i++) {
 		        	console.log(data[i][1]);
-		        	category[data[i][1]-1] += "<tr><td>" + data[i][2] + "</td><td>" + data[i][4] + "</td>" +
+		        	category[data[i][1]-1] += "<tr><td>" + data[i][2] + 
+		        	"</td><td><a href='#' data-tooltip='" + data[i][5] + "'><span class='glyphicon glyphicon-info-sign' aria-hidden='true'></span></a></td><td>" + data[i][4] + "</td>" +
 		        		"<td><input type='radio' name='index_" + data[i][0] +"' value='Y'></td>" +
 		        		"<td><input type='radio' name='index_" + data[i][0] +"' value='P'></td>" +
 		        		"<td><input type='radio' name='index_" + data[i][0] +"' value='N'></td>" +

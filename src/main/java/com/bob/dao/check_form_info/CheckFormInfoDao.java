@@ -7,7 +7,7 @@ import com.bob.dao.AbstractDao;
 
 public class CheckFormInfoDao {
 	StringBuffer sql = new StringBuffer();
-	final CheckFormInfoVo mv = new CheckFormInfoVo();
+	final CheckFormInfoVo cv = new CheckFormInfoVo();
 	final List<CheckFormInfoVo> list = new ArrayList<CheckFormInfoVo>();
 	int result = 0;
 	int count = 0;
@@ -25,15 +25,16 @@ public class CheckFormInfoDao {
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
-					mv.setIndex(rs.getInt(1));
-					mv.setCategory(rs.getInt(2));
-					mv.setContent(rs.getString(3));
-					mv.setScale((rs.getInt(4)));
-					mv.setCriteria(rs.getString(5));
+					cv.setIndex(rs.getInt(1));
+					cv.setCategory(rs.getInt(2));
+					cv.setContent(rs.getString(3));
+					cv.setScale((rs.getInt(4)));
+					cv.setCriteria(rs.getString(5));
+					cv.setExample(rs.getString(6));
 				}
 			}
 		}.execute();
-		return mv;
+		return cv;
 	}
 	
 	public List<CheckFormInfoVo> selectByScale(final int scale) {
@@ -56,6 +57,7 @@ public class CheckFormInfoDao {
 					vo.setContent(rs.getString(3));
 					vo.setScale(rs.getInt(4));
 					vo.setCriteria(rs.getString(5));
+					vo.setExample(rs.getString(6));
 					list.add(vo);
 				}
 			}
