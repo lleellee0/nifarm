@@ -503,7 +503,7 @@ p:last-child {
 			        	category[data[i][1]-1] += "<tr><td>" + data[i][2] + 
 			        	"</td><td><a href='#' data-tooltip='" + data[i][5] + "'><span class='glyphicon glyphicon-info-sign' aria-hidden='true'></span></a></td><td>" + data[i][4] + "</td>" +
 			        		"<td>" + data[i][6] +"</td>" +
-			        		"<td><a href='${path}inner/api/file/" + data[i][8] + "'>" + data[i][7] + "</td>" + 
+			        		"<td><a href='${path}inner/api/file/" + data[i][8] + "' target='_blank'>" + data[i][7] + "</td>" + 
 			        		"</tr>";
 			        		
 			        	all_count[data[i][1]-1]++;

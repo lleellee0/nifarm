@@ -237,6 +237,32 @@ public class SubmitedFormDao {
 	}
 	*/
 	
+	public SubmitedFormVo selectByFileHash(final String file_hash) {
+		sql.append("SELECT * FROM ");
+		sql.append("submited_form WHERE ");
+		sql.append("`file_hash`=?");
+		
+		new AbstractDao() {
+			@Override
+			public void query() throws Exception {
+				pstmt = con.prepareStatement(sql.toString());
+				pstmt.setString(1, file_hash);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					vo.setIndex(rs.getInt(1));
+					vo.setFarm_info_index(rs.getInt(2));
+					vo.setForm_count(rs.getInt(3));
+					vo.setCheck_form_info_index(rs.getInt(4));
+					vo.setYpn(rs.getString(5));
+					vo.setOriginal_file_name(rs.getString(6));
+					vo.setFile_hash(rs.getString(7));
+				}
+			}
+		}.execute();
+		return vo;
+	}
+	
 	public int getCount() {
 		sql = new StringBuffer();
 		sql.append("SELECT count(*) FROM ");

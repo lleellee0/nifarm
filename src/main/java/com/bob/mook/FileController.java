@@ -1,16 +1,25 @@
 package com.bob.mook;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,6 +48,51 @@ public class FileController {
 	 * Simply selects the home view to render by returning its name.
 	 * @throws UnsupportedEncodingException 
 	 */
+	
+	@RequestMapping(value = "/inner/api/file/{file_hash}", method = RequestMethod.GET)
+	public void login(Locale locale, Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable("file_hash") String file_hash) throws IOException {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		SingletonSetting ssi = SingletonSetting.getInstance();
+		ssi.setAllParameter(model);
+		
+		SubmitedFormDao sfdao = new SubmitedFormDao();
+		SubmitedFormVo sfvo = sfdao.selectByFileHash(file_hash);
+		
+		File downloadFile = new File(ssi.getFilePath() + sfvo.getFile_hash());
+
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + sfvo.getOriginal_file_name() + "\";");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+        OutputStream out = response.getOutputStream();
+		
+        FileInputStream fis = null;
+        
+        try {
+             
+            fis = new FileInputStream(downloadFile);
+             
+            FileCopyUtils.copy(fis, out);
+             
+             
+        } catch(Exception e){
+             
+            e.printStackTrace();
+             
+        }finally{
+             
+            if(fis != null){
+                 
+                try{
+                    fis.close();
+                }catch(Exception e){}
+            }
+             
+        }// try end;
+         
+        out.flush();
+        
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/inner/submit-checklist", method = RequestMethod.POST, produces = "application/json; charset=utf8")
     public Object uploadFile(MultipartHttpServletRequest request) throws UnsupportedEncodingException {
