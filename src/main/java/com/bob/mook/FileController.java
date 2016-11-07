@@ -73,6 +73,12 @@ public class FileController {
         	}
         } 
         System.out.println("id :" + farmerId);
+        
+        if(!isExistFarmer(farmerId)) {
+        	System.out.println("그런 id 없어요~");
+        	return false;
+        }
+        
         if(!isExistFarm(farmerId)) {
         	// 농장이 없으니까 만들어줘야지 (insert into farm_info)
         	System.out.println("이름없네? 농장 ㄱ");
@@ -182,6 +188,16 @@ public class FileController {
             return true;
         }
     }
+	
+	private boolean isExistFarmer(String farmerId) {
+		MemberDao mdao = new MemberDao();
+		MemberVo mvo = mdao.selectById(farmerId);
+		
+		if(mvo.getIndex() != 0)
+			return true;
+		
+		return false;
+	}
 	
 	private boolean isExistFarm(String farmerId) {
 		MemberDao mdao = new MemberDao();

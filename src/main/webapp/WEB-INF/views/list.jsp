@@ -240,7 +240,8 @@
                                     		
                                     	</table>
                                     </div>
-                                    <input id="form-submit-button" type="submit" value="Submit" style="float:right;" class="btn btn-primary">
+                                    <input id="form-submit-button" type="submit" value="Submit" style="float:right;" class="btn btn-primary"
+                                    >
                             </form>
                         </div>
       <div class="modal-footer">
@@ -249,6 +250,18 @@
   </div>
 </div>
 
+<div class="modal fade bs-example-modal-sm" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" style="width: 100%; height:90%; backgound:rgba(0, 0, 0, 0.4);">
+    <div class="modal-content" style="border: 0px; background: rgba(0, 0, 0, 0);">
+      <div class="loading-bro">
+		 <h1>Sending..</h1>
+		  <svg id="load" x="0px" y="0px" viewBox="0 0 150 150">
+		    <circle id="loading-inner" cx="75" cy="75" r="60"/>
+		 </svg>
+		</div>
+    </div>
+  </div>
+</div>
 
 <%@include file="includes/scripts.jsp" %>
   
@@ -288,8 +301,11 @@
 			dataType: 'json',
 			beforeSend: function() {
 				console.log('성공했을때..');
+				$('#loadingModal').modal('show');
 			},
 			complete: function(data) {
+				$('#loadingModal').modal('hide');
+				$('#farmModal').modal('hide');
 				console.log('실패했을때.....');
 			}
 		});
@@ -442,6 +458,7 @@ function makeForm(scale) {
 	} );
   </script>
   
+		  
   
   <input name="animation" type="hidden">
   </body>

@@ -371,6 +371,18 @@ p:last-child {
 			opacity: 1;
 		}
   
+  
+  
+  /*차트*/
+  #radarChart {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+#canvas-holder {
+  width:100%;
+  height:100%;
+  background:#333;
+}
 </style>
   
   
@@ -420,9 +432,13 @@ p:last-child {
 				</header>
 				<div class="card__body">
 					<div class="card__content">
-						<h3 class="card__title"><a href="#0" class="card__showmore">Free Course in HTML 5 Training Launched by Alison</a></h3>
+						<h3 class="card__title"><a href="#0" class="card__showmore">Chart</a></h3>
 						<div class="card__description">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, quisquam, cum, praesentium error cumque voluptas ea architecto necessitatibus impedit quae autem minima consequuntur sed dolor quas labore aut asperiores maxime saepe expedita iusto libero at officia rem sunt. Accusamus, quis?</p>
+							<p>
+								<div class="section" id="canvas-holder">
+								  <canvas id="radarChart" />
+								</div>
+							</p>
 						</div>
 					</div>
 				</div>
@@ -433,9 +449,9 @@ p:last-child {
 				</header>
 				<div class="card__body">
 					<div class="card__content">
-						<h3 class="card__title"><a href="#0" class="card__showmore">Development for Designers: Thinking Atomic Design</a></h3>
+						<h3 class="card__title"><a href="#0" class="card__showmore">총평</a></h3>
 						<div class="card__description">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, quisquam, cum, praesentium error cumque voluptas ea architecto necessitatibus impedit quae autem minima consequuntur sed dolor quas labore aut asperiores maxime saepe expedita iusto libero at officia rem sunt. Accusamus, quis?</p>
+							<p>존나 취약함.</p>
 						</div>
 					</div>
 				</div>
@@ -445,6 +461,8 @@ p:last-child {
 	</div>
 
   <%@include file="includes/scripts.jsp" %>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
   
   <script>
   $(document).ready(function() {
@@ -458,6 +476,13 @@ p:last-child {
 			        $('#result-target').empty();
 			        var code = "";
 			        var category = new Array(13);
+			        var all_count = new Array(13);
+			        var y_count = new Array(13);
+			        for(var i = 0; i < 13; i++) {
+			        	all_count[i] = 0;
+			        	y_count[i] = 0;
+			        }
+			        	
 			        var table_header = "<tr><th style='width:40%;'>세부내용</th><th style='width:5%;'></th><th style='width:40%;'>점검기준</th><th style='width:5%;'>YPN</th><th style='width:10%;'>File</th></tr>";
 			        category[0] += "<tr><td style='font-size:21px;padding-top:20px;'>1. 보안정책<td></tr>" + table_header;
 			        category[1] += "<tr><td style='font-size:21px;padding-top:20px;'>2. 정보보호조직<td></tr>" + table_header;
@@ -480,12 +505,53 @@ p:last-child {
 			        		"<td>" + data[i][6] +"</td>" +
 			        		"<td><a href='${path}inner/api/file/" + data[i][8] + "'>" + data[i][7] + "</td>" + 
 			        		"</tr>";
+			        		
+			        	all_count[data[i][1]-1]++;
+			        	if(data[i][6] === "Y")
+			        		y_count[data[i][1]-1]++;
 			        }
 			        for(var i = 0; i < 13; i++) {
 			        	code += category[i];
 			        }
 					$('#result-target').html(code);
 					console.log(data);
+					// Radar Data
+					
+					var datasets_data = new Array(13);
+					for(i = 0; i < 13; i++) {
+						datasets_data[i] = (y_count[i]/all_count[i]*100).toPrecision(2);
+					}
+					
+					var radarData = {
+						labels : [
+					      "보안정책", 
+					      "정보보호조직", 
+					      "자산관리",
+					      "인력보안",
+					      "물리환경적보안",
+					      "통신운영관리",
+					      "접근통제",
+					      "정보시스템도입 및 개발과 유지보수",
+					      "정보보안 사고관리",
+					      "업무연속성관리",
+					      "암호통제",
+					      "인증",
+					      "시큐어 코딩"
+					  ],
+						datasets : [
+							{
+								fillColor : "rgba(60, 175, 226, .6)",
+								strokeColor : "rgba(60, 175, 226, .8)",
+								data : datasets_data
+							}
+						]
+					}
+
+					//Get the context of the Radar Chart canvas element we want to select
+					var ctx3 = document.getElementById("radarChart").getContext("2d");
+
+					// Create the Radar Chart
+					var myRadarChart = new Chart(ctx3).Radar(radarData, radarOptions);
 			    },
 			    error:function(request,status,error){
 			        alert("code:"+request.status+"\n"+"error:"+error);
@@ -493,8 +559,118 @@ p:last-child {
 			}); 
   });
 	  
+  
+  // 차트 시작
+  // Radar Chart Options
+var radarOptions = {
+				
+	//Boolean - If we show the scale above the chart data			
+	scaleOverlay : false,
+	
+	//Boolean - If we want to override with a hard coded scale
+	scaleOverride : false,
+	
+	//Boolean - Whether to show lines for each scale point
+	scaleShowLine : true,
+
+	//String - Colour of the scale line	
+	scaleLineColor : "#999",
+	
+	//Number - Pixel width of the scale line	
+	scaleLineWidth : 1,
+
+	//Boolean - Whether to show labels on the scale	
+	scaleShowLabels : false,
+	
+
+	
+	//String - Scale label font declaration for the scale label
+	scaleFontFamily : "'Arial'",
+	
+	//Number - Scale label font size in pixels	
+	scaleFontSize : 12,
+	
+	//String - Scale label font weight style	
+	scaleFontStyle : "normal",
+	
+	//String - Scale label font colour	
+	scaleFontColor : "#666",
+	
+	//Boolean - Show a backdrop to the scale label
+	scaleShowLabelBackdrop : true,
+	
+	//String - The colour of the label backdrop	
+	scaleBackdropColor : "rgba(255,255,255,0.75)",
+	
+	//Number - The backdrop padding above & below the label in pixels
+	scaleBackdropPaddingY : 2,
+	
+	//Number - The backdrop padding to the side of the label in pixels	
+	scaleBackdropPaddingX : 2,
+	
+	//Boolean - Whether we show the angle lines out of the radar
+	angleShowLineOut : true,
+	
+	//String - Colour of the angle line
+	angleLineColor : "rgba(255,255,255,0.3)",
+	
+	//Number - Pixel width of the angle line
+	angleLineWidth : 1,			
+	
+	//String - Point label font declaration
+	pointLabelFontFamily : "'Arial'",
+	
+	//String - Point label font weight
+	pointLabelFontStyle : "normal",
+	
+	//Number - Point label font size in pixels	
+	pointLabelFontSize : 12,
+	
+	//String - Point label font colour	
+	pointLabelFontColor : "#EFEFEF",
+	
+	//Boolean - Whether to show a dot for each point
+	pointDot : true,
+	
+	//Number - Radius of each point dot in pixels
+	pointDotRadius : 3,
+	
+	//Number - Pixel width of point dot stroke
+	pointDotStrokeWidth : 1,
+	
+	//Boolean - Whether to show a stroke for datasets
+	datasetStroke : true,
+	
+	//Number - Pixel width of dataset stroke
+	datasetStrokeWidth : 1,
+	
+	//Boolean - Whether to fill the dataset with a colour
+	datasetFill : true,
+	
+	//Boolean - Whether to animate the chart
+	animation : true,
+
+	//Number - Number of animation steps
+	animationSteps : 60,
+	
+	//String - Animation easing effect
+	animationEasing : "easeOutQuart",
+
+	//Function - Fires when the animation is complete
+	onAnimationComplete : null,
+  
+  //make it respond damnit!
+  responsive: true
+	
+}
+
+
+
+// 차트 끝
+  
 	  
   </script>
+  
   
   <input name="animation" type="hidden">
   </body>

@@ -15,4 +15,5 @@
   <link rel="stylesheet" href="${path}assets/theme/css/style.css">
   <link rel="stylesheet" href="${path}assets/mobirise3-blocks-plugin/css/style.css">
   <link rel="stylesheet" href="${path}assets/mobirise/css/mbr-additional.css" type="text/css">
+  <link rel="stylesheet" href="${path}assets/loading.css" type="text/css">
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
