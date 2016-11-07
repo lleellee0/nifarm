@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bob.dao.check_date.CheckDateDao;
+import com.bob.dao.check_date.CheckDateVo;
 import com.bob.dao.check_form_info.CheckFormInfoDao;
 import com.bob.dao.check_form_info.CheckFormInfoVo;
 import com.bob.dao.farm_info.FarmInfoDao;
 import com.bob.dao.farm_info.FarmInfoVo;
 import com.bob.dao.member.MemberDao;
 import com.bob.dao.member.MemberVo;
+import com.bob.dao.submited_form.SubmitedFormDao;
+import com.bob.dao.submited_form.SubmitedFormVo;
 
 /**
  * Handles requests for the application home page.
@@ -55,14 +59,32 @@ public class HomeController {
 		return "list";
 	}
 	
-	@RequestMapping(value = "/inner/result/{index}", method = RequestMethod.GET)
-	public String result(Locale locale, Model model) {
+	@RequestMapping(value = "/inner/result/{farm_info_index}/{form_count}", method = RequestMethod.GET)
+	public String result(Locale locale, Model model, @PathVariable("farm_info_index") int farm_info_index, @PathVariable("form_count") int form_count) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		SingletonSetting ssi = SingletonSetting.getInstance();
 		ssi.setAllParameter(model);
+		
+		FarmInfoDao fiDao = new FarmInfoDao();
+		FarmInfoVo fiVo = fiDao.selectByIndex(farm_info_index);
+		
+		switch(fiVo.getScale()) {
+			case 1: model.addAttribute("scale", "소규모");break;
+			case 2: model.addAttribute("scale", "중규모");break;
+			case 3: model.addAttribute("scale", "대규모");break;
+		}
+		
+		model.addAttribute("fiVo", fiVo);
+		
+		CheckDateDao cdDao = new CheckDateDao();
+		CheckDateVo cdVo = cdDao.selectByFarmInfoIndexAndFormCount(farm_info_index, form_count);
+		
+		System.out.println(cdVo.getCheck_date() + " " + farm_info_index + " " + form_count);
+		
+		model.addAttribute("cdVo", cdVo);
 
-		return "list";
+		return "result";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -104,9 +126,50 @@ public class HomeController {
 		}
 		return hashmap;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/inner/admin/api/result/{scale}/{farm_info_index}/{form_count}", method = RequestMethod.POST)
+	public HashMap<String, Object> resultListData(Model model, @PathVariable("scale") int scale, @PathVariable("farm_info_index") int farm_info_index,
+			@PathVariable("form_count") int form_count) {
+		SingletonSetting ssi = SingletonSetting.getInstance();
+		model.addAttribute("farm_info_index", farm_info_index);
+		model.addAttribute("form_count", form_count);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		CheckFormInfoDao dao = new CheckFormInfoDao();
+		List<CheckFormInfoVo> cfilist = dao.selectByScale(scale);
+		SubmitedFormDao sfdao = new SubmitedFormDao();
+		
+		System.out.println(farm_info_index + " " + form_count);
+		
+
+		for(int i = 0; i < cfilist.size(); i++) {
+			CheckFormInfoVo cfivo = cfilist.get(i);
+			SubmitedFormVo sfvo = sfdao.selectByFarmInfoIndexAndFormCountAndCheckFormInfoIndex(farm_info_index, form_count, i + 1);
+			String arr[] = new String[9];
+			arr[0] = Integer.toString(cfivo.getIndex());
+			arr[1] = Integer.toString(cfivo.getCategory());
+			arr[2] = cfivo.getContent();
+			arr[3] = Integer.toString(cfivo.getScale());
+			arr[4] = cfivo.getCriteria();
+			arr[5] = cfivo.getExample();
+			
+			
+			
+			arr[6] = sfvo.getYpn();
+			arr[7] = sfvo.getOriginal_file_name();
+			arr[8] = sfvo.getFile_hash();
+			hashmap.put(Integer.toString(i), arr);
+		}
+		return hashmap;
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/inner/admin/api/dataTable", method = RequestMethod.POST)
-	public HashMap<String, Object> dataTableData() {
+	public HashMap<String, Object> dataTableData(Model model) {
+		SingletonSetting ssi = SingletonSetting.getInstance();
+		ssi.setAllParameter(model);
+		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		FarmInfoDao fidao = new FarmInfoDao();
 		List<FarmInfoVo> list = fidao.selectAll();

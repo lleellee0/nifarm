@@ -64,6 +64,41 @@ public class SubmitedFormDao {
 		return vo;
 	}
 	
+	public List<SubmitedFormVo> selectByFarmInfoIndexAndFormCount(final int farm_info_index, final int form_count) {
+		sql = new StringBuffer();
+		sql.append("SELECT * FROM ");
+		sql.append("submited_form WHERE ");
+		sql.append("`farm_info_index`=? AND `form_count`=?");
+		
+		new AbstractDao() {
+			@Override
+			public void query() throws Exception {
+				pstmt = con.prepareStatement(sql.toString());
+				pstmt.setInt(1, farm_info_index);
+				pstmt.setInt(2, form_count);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					SubmitedFormVo vo = new SubmitedFormVo();
+					vo.setIndex(rs.getInt(1));
+					vo.setFarm_info_index(rs.getInt(2));
+					vo.setForm_count(rs.getInt(3));
+					vo.setCheck_form_info_index(rs.getInt(4));
+					vo.setYpn(rs.getString(5));
+					vo.setOriginal_file_name(rs.getString(6));
+					vo.setFile_hash(rs.getString(7));
+					list.add(vo);
+				}
+			}
+		}.execute();
+		
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i) + " " + list.get(i).getOriginal_file_name());
+		}
+		
+		return list;
+	}
+	
 	public SubmitedFormVo selectByFarmInfoIndexAndFormCountAndCheckFormInfoIndex(final int farm_info_index, final int form_count, final int check_form_info_index) {
 		sql = new StringBuffer();
 		sql.append("SELECT * FROM ");

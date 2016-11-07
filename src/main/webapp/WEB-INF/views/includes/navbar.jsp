@@ -9,7 +9,7 @@
                 <div class="mbr-table-cell">
 
                     <div class="navbar-brand">
-                        <a href="/mook/" class="navbar-logo"><img src="assets/images/logo.png" alt="Mobirise"></a>
+                        <a href="/mook/" class="navbar-logo"><img src="${path}assets/images/logo.png" alt="Mobirise"></a>
                         <a class="navbar-caption" href="/mook/">니팜내팜</a>
                     </div>
 

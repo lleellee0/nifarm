@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bob.dao.check_date.CheckDateDao;
+import com.bob.dao.check_date.CheckDateVo;
 import com.bob.dao.farm_info.FarmInfoDao;
 import com.bob.dao.farm_info.FarmInfoVo;
 import com.bob.dao.member.MemberDao;
@@ -135,6 +137,14 @@ public class FileController {
             	sfdao.insert(sfvo);
             }
         } 
+        
+        // check_date에 기록
+        CheckDateDao cddao = new CheckDateDao();
+        CheckDateVo cdvo = new CheckDateVo();
+        cdvo.setCheck_date(checkDate);
+        cdvo.setFarm_info_index(current_farm_info_index);
+        cdvo.setForm_count(current_form_count);
+        cddao.insert(cdvo);
         
         
         /*

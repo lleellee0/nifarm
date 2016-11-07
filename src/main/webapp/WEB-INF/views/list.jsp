@@ -14,26 +14,13 @@
   <link rel="shortcut icon" href="assets/images/kakaotalk-20161105-173132001-256x128-53.png" type="image/x-icon">
   <meta name="description" content="">
   
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;subset=latin">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
-  <link rel="stylesheet" href="assets/et-line-font-plugin/style.css">
-  <link rel="stylesheet" href="assets/bootstrap-material-design-font/css/material.css">
-  <link rel="stylesheet" href="assets/tether/tether.min.css">
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/socicon/css/socicon.min.css">
-  <link rel="stylesheet" href="assets/animate.css/animate.min.css">
-  <link rel="stylesheet" href="assets/dataTables/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="assets/dropdown/css/style.css">
-  <link rel="stylesheet" href="assets/theme/css/style.css">
-  <link rel="stylesheet" href="assets/mobirise3-blocks-plugin/css/style.css">
-  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <%@include file="includes/links.jsp" %>
+  
   <style>
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('assets/fonts/glyphicons-halflings-regular.eot');
-  src: url('assets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('assets/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('assets/fonts/glyphicons-halflings-regular.woff') format('woff'), url('assets/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('sassets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('${path}assets/fonts/glyphicons-halflings-regular.eot');
+  src: url('${path}assets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('${path}assets/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('${path}assets/fonts/glyphicons-halflings-regular.woff') format('woff'), url('${path}assets/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('${path}assets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 
 .glyphicon {
@@ -49,6 +36,9 @@
 }
 .glyphicon-info-sign:before {
   content: "\e086";
+}
+.glyphicon-ok:before {
+  content: "\e013";
 }
   
 		  .filebox label {
@@ -260,20 +250,8 @@
 </div>
 
 
-
-  <script src="assets/web/assets/jquery/jquery.min.js"></script>
-  <script src="assets/tether/tether.min.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/smooth-scroll/SmoothScroll.js"></script>
-  <script src="assets/viewportChecker/jquery.viewportchecker.js"></script>
-  <script src="assets/dataTables/jquery.dataTables.min.js"></script>
-  <script src="assets/dataTables/dataTables.bootstrap4.min.js"></script>
-  <script src="assets/dropdown/js/script.min.js"></script>
-  <script src="assets/touchSwipe/jquery.touchSwipe.min.js"></script>
-  <script src="assets/theme/js/script.js"></script>
-  <script src="assets/mobirise3-blocks-plugin/js/script.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js'></script>
+<%@include file="includes/scripts.jsp" %>
+  
   
   <script>
   $(document).ready(function() {
@@ -292,7 +270,7 @@
 		        	            data[i][2],
 		        	            data[i][3],
 		        	            data[i][4],
-		        	            data[i][5]
+		        	            "<a href='${path}inner/result/" + data[i][0] + "/" + data[i][5] +  "'>" + "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span></a>"
 		        	]).draw(false);
 		        }
 		    },
@@ -426,31 +404,31 @@ function makeForm(scale) {
 	    "litres": 1
 	  }, {
 	    "country": "강원",
-	    "litres": 3
+	    "litres": 7
 	  }, {
 	    "country": "경기",
-	    "litres": 1
+	    "litres": 6
 	  }, {
 		"country": "충남",
-	 	"litres": 1
+	 	"litres": 3
 	  }, {
 		"country": "충북",
-		"litres": 0
+		"litres": 10
 	  }, {
 		"country": "경북",
-		"litres": 0
+		"litres": 14
 	  }, {
 		"country": "경남",
-		"litres": 0
+		"litres": 21
 	  }, {
 		"country": "전북",
-		"litres": 0
+		"litres": 11
 	  }, {
 		"country": "전남",
-		"litres": 0
+		"litres": 90
 	  }, {
 		"country": "제주",
-		"litres": 0
+		"litres": 60
 	  } ],
 	  
 	  "valueField": "litres",
