@@ -308,6 +308,63 @@ p:last-child {
 }
 
 
+.result_list {
+	text-align: center;
+	font-size: 24px;
+}
+
+.animated_link3 {
+  display: block;
+  overflow: hidden;
+  vertical-align: top;
+  -webkit-perspective: 600px;
+  -ms-perspective: 600px;
+  perspective: 600px;
+  -webkit-perspective-origin: 50% 50%;
+  -ms-perspective-origin: 50% 50%;
+  perspective-origin: 50% 50%;
+}
+
+.animated_link3:hover {
+  text-decoration: none;
+}
+
+.animated_link3 span {
+  display: inline-block;
+  position: relative;
+  padding: 0 2px;
+  border-radius: 5px;
+  -webkit-transition: all 400ms ease;
+  transition: all 400ms ease;
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.animated_link3:hover span {
+  background: #00929c;
+  -webkit-transform: translate3d(0px, 0px, -30px) rotateX(90deg);
+  transform: translate3d(0px, 0px, -30px) rotateX(90deg);
+}
+
+.animated_link3 span:after {
+  content: attr(data-title);
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0 2px;
+  border-radius: 5px;
+  color: #333;
+  background: #00929c;
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+  -webkit-transform: translate3d(0px, 105%, 0px) rotateX(-90deg);
+  transform: translate3d(0px, 105%, 0px) rotateX(-90deg);
+}
+
+
 /* 툴팁 */
 		[data-tooltip] {
 			position: relative;
@@ -394,7 +451,6 @@ p:last-child {
 		<div class="cards" style="margin-top:100px;">
 			<article class="card card_size-m">
 				<header class="card__header">
-					<img class="card__preview" src="https://stas-melnikov.ru/cliparts/phone2_480x320.jpg" alt="Preview img">
 				</header>
 				<div class="card__body">
 					<div class="card__content">
@@ -409,9 +465,6 @@ p:last-child {
 				</div>
 			</article>		
 			<article class="card card_size-2xl">
-				<header class="card__header">
-					<img class="card__preview" src="https://stas-melnikov.ru/cliparts/snowboarding2_1200x675.jpg" alt="Preview img">
-				</header>
 				<div class="card__body">
 					<div class="card__content">
 						<h3 class="card__title"><a href="#0" class="card__showmore">Check Result(${cdVo.check_date})</a></h3>
@@ -428,7 +481,6 @@ p:last-child {
 			</article>	
 			<article class="card card_size-xl">
 				<header class="card__header">
-					<img class="card__preview" src="https://stas-melnikov.ru/cliparts/skills_1000x667.jpg" alt="Preview img">
 				</header>
 				<div class="card__body">
 					<div class="card__content">
@@ -444,21 +496,22 @@ p:last-child {
 				</div>
 			</article>	
 			<article class="card card_size-xl">
-				<header class="card__header">
-					<img class="card__preview" src="https://stas-melnikov.ru/cliparts/work_1200x700.jpg" alt="Preview img">
-				</header>
 				<div class="card__body">
 					<div class="card__content">
 						<h3 class="card__title"><a href="#0" class="card__showmore">총평</a></h3>
 						<div class="card__description">
-							<p>존나 취약함.</p>
+							<p>양호함.</p>
 						</div>
 					</div>
 				</div>
 			</article>
 							
 		</div>
+		<div class="result_list">
+			
+		</div>
 	</div>
+	
 
   <%@include file="includes/scripts.jsp" %>
   
@@ -469,7 +522,7 @@ p:last-child {
 		var request_scale = ${fiVo.scale};
 			
 			$.ajax({
-			    url : "${path}inner/admin/api/result/${fiVo.scale}/${farm_info_index}/${form_count}",
+			    url : "${path}inner/api/result/${fiVo.scale}/${farm_info_index}/${form_count}",
 			    dataType : "json",
 			    type : "post",
 			    success: function(data) {
@@ -558,6 +611,33 @@ p:last-child {
 			    }
 			}); 
   });
+  
+  
+  $(document).ready(function() {
+			$.ajax({
+			    url : "${path}inner/api/result/${farm_info_index}",
+			    dataType : "json",
+			    type : "post",
+			    success: function(data) {
+			    	var code = "";
+			    	
+			    	for(var i = 0, len = Object.keys(data).length; i < len;i++) {
+			    		console.log(data[i][2]);
+			        	code += '<div class="animated_link3"><a href="${path}inner/result/' + data[i][1] + '/' + data[i][2] + 
+			        	'"><span data-title="' + data[i][3] + '">' + data[i][3] + '</span></a></div>';
+			        }
+			    	
+			    	
+					$('.result_list').html(code);
+					console.log(data);
+					
+			    },
+			    error:function(request,status,error){
+			        alert("code:"+request.status+"\n"+"error:"+error);
+			    }
+			}); 
+});
+  
 	  
   
   // 차트 시작

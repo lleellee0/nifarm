@@ -128,7 +128,7 @@ public class HomeController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/inner/admin/api/result/{scale}/{farm_info_index}/{form_count}", method = RequestMethod.POST)
+	@RequestMapping(value = "/inner/api/result/{scale}/{farm_info_index}/{form_count}", method = RequestMethod.POST)
 	public HashMap<String, Object> resultListData(Model model, @PathVariable("scale") int scale, @PathVariable("farm_info_index") int farm_info_index,
 			@PathVariable("form_count") int form_count) {
 		SingletonSetting ssi = SingletonSetting.getInstance();
@@ -163,6 +163,30 @@ public class HomeController {
 		}
 		return hashmap;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/inner/api/result/{farm_info_index}", method = RequestMethod.POST)
+	public HashMap<String, Object> resultListsListData(Model model, @PathVariable("farm_info_index") int farm_info_index) {
+		SingletonSetting ssi = SingletonSetting.getInstance();
+		model.addAttribute("farm_info_index", farm_info_index);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		CheckDateDao cddao = new CheckDateDao();
+		List<CheckDateVo> cdlist = cddao.selectByFarmInfoIndex(farm_info_index);
+		
+		for(int i = 0; i < cdlist.size(); i++) {
+			CheckDateVo cdvo = cdlist.get(i);
+			String arr[] = new String[4];
+			arr[0] = Integer.toString(cdvo.getIndex());
+			arr[1] = Integer.toString(cdvo.getFarm_info_index());
+			arr[2] = Integer.toString(cdvo.getForm_count());
+			arr[3] = cdvo.getCheck_date();
+			
+			hashmap.put(Integer.toString(i), arr);
+		}
+		return hashmap;
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "/inner/admin/api/dataTable", method = RequestMethod.POST)

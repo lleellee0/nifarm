@@ -211,7 +211,7 @@ textarea {
   
   
 </head>
-<body>
+<body style="background: #000000;">
 <%@include file="includes/navbar.jsp" %>
 
 <section class="engine"><a rel="external" href="https://mobirise.com">easy wysiwyg web builder software</a></section><section class="mbr-section mbr-section-hero mbr-section-full mbr-parallax-background mbr-section-with-arrow mbr-after-navbar" id="header1-1" style="background-image: url(assets/images/chowon-2000x1250-48.jpg);">
@@ -266,8 +266,8 @@ textarea {
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-xs-center">
                 <h3 class="mbr-section-title display-2">니팜내팜</h3>
-                <div class="lead">기모띠
-</div>
+                <div class="lead"> 스마트팜 보안 가이드
+				</div>
                 
             </div>
         </div>
@@ -276,8 +276,15 @@ textarea {
 </section>
 
 <section class="mbr-section mbr-section-nopadding" id="map1-2">
-    <div class="mbr-map"><iframe frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0Dx_boXQiwvdz8sJHoYeZNVTdoWONYkU&amp;q=place_id:ChIJE8jWVlehfDUR9DTAISM7lQA" allowfullscreen=""></iframe></div>
+    <div class="mbr-map" style="width:49.9%; display:inline-block; float:left;">
+    	<iframe frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0Dx_boXQiwvdz8sJHoYeZNVTdoWONYkU&amp;q=place_id:ChIJE8jWVlehfDUR9DTAISM7lQA" allowfullscreen=""></iframe>
+    </div>
+    <div class="mbr-map" style="width:49.9%; display:inline-block; float:right;">
+    	<iframe frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0Dx_boXQiwvdz8sJHoYeZNVTdoWONYkU&amp;q=place_id:ChIJS472-avSejUR890sJbfJlSs" allowfullscreen=""></iframe>
+    </div>
 </section>
+
+
 
 
   <%@include file="includes/scripts.jsp" %>

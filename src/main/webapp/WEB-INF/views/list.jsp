@@ -306,7 +306,7 @@
 			complete: function(data) {
 				$('#loadingModal').modal('hide');
 				$('#farmModal').modal('hide');
-				console.log('실패했을때.....');
+				location.reload(true);
 			}
 		});
 	});

@@ -61,6 +61,32 @@ public class CheckDateDao {
 		return vo;
 	}
 	
+	public List<CheckDateVo> selectByFarmInfoIndex(final int farm_info_index) {
+		sql = new StringBuffer();
+		sql.append("SELECT * FROM ");
+		sql.append("check_date WHERE farm_info_index=?");
+		
+		new AbstractDao() {
+			@Override
+			public void query() throws Exception {
+				pstmt = con.prepareStatement(sql.toString());
+
+				pstmt.setInt(1, farm_info_index);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					CheckDateVo vo = new CheckDateVo(); 
+					vo.setIndex(rs.getInt(1));
+					vo.setFarm_info_index(rs.getInt(2));
+					vo.setForm_count(rs.getInt(3));
+					vo.setCheck_date(rs.getString(4));
+					list.add(vo);
+				}
+			}
+		}.execute();
+		return list;
+	}
+	
 
 /*	
 	public List<SubmitedFormVo> selectByScale(final int scale) {
