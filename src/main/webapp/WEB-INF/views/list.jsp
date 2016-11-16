@@ -42,6 +42,7 @@
 }
   
 		  .filebox label {
+		  transition: .3s;
 		  display: inline-block;
 		  padding: .5em .75em;
 		  color: #999;
@@ -130,7 +131,7 @@
 		}
 		
 		
-		
+
 		
 	#scaleChartdiv {
 		width		: 100%;
@@ -142,6 +143,11 @@
 		height		: 500px;
 		font-size	: 14px;
 	}				
+	
+	
+	.display-none {
+		display: none;
+	}
   </style>
   
   
@@ -155,7 +161,7 @@
     
 
     <div class="container">
-        <h3 class="mbr-section-title display-2">TABLE</h3>
+        <h3 class="mbr-section-title display-2">점검결과</h3>
     </div>
 
     <div class="container table-wrapper" data-search="true" search-text="Search:" info1-text="Showing" info2-text="entries" info3-text="(filtered from" info4-text="total entries)">
@@ -234,12 +240,25 @@
 										  <option>소규모</option>
 										</select>
                                     </div>
+                                    
+                                    <div class="col-xs-12" style="padding-bottom: 5px;"> 
+                                         <div class='filebox'>
+                                         	<label for='farm_image'>업로드</label>
+                                         	<input type='file' id='farm_image' name='farm_image' onchange='fileUpload(this);'>
+                                         </div>
+                                    </div>
+                                    
                                     <!-- 규모별 질문 -->
                                     <div class="col-xs-12" style="margin-top: 20px;">
                                     	<table id="scale-target" style="width:100%;">
                                     		
                                     	</table>
                                     </div>
+                                    
+                                    <div class="col-xs-12 display-none" id="opinion" style="padding-bottom: 15px; padding-top: 15px;">
+								        <input type="text" class="form-control" name="checkerOpinion" required="" data-form-field="checkerOpinion" placeholder="점검자 소견">
+					                </div>
+                                    
                                     <input id="form-submit-button" type="submit" value="Submit" style="float:right;" class="btn btn-primary"
                                     >
                             </form>
@@ -363,12 +382,15 @@ function makeForm(scale) {
 		        		"<td><input type='radio' name='ypn_" + data[i][0] +"' value='Y'></td>" +
 		        		"<td><input type='radio' name='ypn_" + data[i][0] +"' value='P'></td>" +
 		        		"<td><input type='radio' name='ypn_" + data[i][0] +"' value='N'></td>" +
-		        		"<td><div class='filebox'><label for='file_" + data[i][0] + "'>업로드</label><input type='file' id='file_" + data[i][0] + "' name='file_" + data[i][0] + "'></td>" + 
+		        		"<td><div class='filebox'><label for='file_" + data[i][0] + "'>업로드</label><input type='file' id='file_" + data[i][0] + "' name='file_" + data[i][0] + "' onchange='fileUpload(this);'></td>" + 
 		        		"</tr>";
 		        }
 		        for(var i = 0; i < 13; i++) {
 		        	code += category[i];
 		        }
+		        
+		        $('#opinion').removeClass("display-none");
+		        
 				$('#scale-target').html(code);
 				console.log(data);
 		    },
@@ -381,6 +403,11 @@ function makeForm(scale) {
 		$('#scale-target').empty();
 	}
 	
+}
+
+function fileUpload(uploaded_file_input) {
+	$($(uploaded_file_input).parent('.filebox').children()[0]).css("background-color", "#7e9b9f");
+	$($(uploaded_file_input).parent('.filebox').children()[0]).css("color", "#000000");
 }
   
   </script>

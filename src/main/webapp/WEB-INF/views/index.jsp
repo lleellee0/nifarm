@@ -266,12 +266,25 @@ textarea {
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-xs-center">
                 <h3 class="mbr-section-title display-2">니팜내팜</h3>
-                <div class="lead"> 스마트팜 보안 가이드
+                <div class="lead"> 스마트팜의 보안향상을 <br>위한 웹 진단 도구입니다.
 				</div>
                 
             </div>
         </div>
     </div>
+
+</section>
+
+<section class="mbr-section article" id="msg-box3-4" style="background-color: #ffffff;padding-top: 20px;padding-bottom: 50px;">
+<div class="col-md-6 text-xs-center">
+                <h4 class="mbr-section-title display-2" style="font-size:2rem;">KITRI BOB</h4>
+                
+            </div>
+  <div class="col-md-6 text-xs-center">
+                <h3 class="mbr-section-title display-2" style="font-size:2rem;">EPIS</h3>
+                
+            </div>
+    
 
 </section>
 
@@ -284,7 +297,12 @@ textarea {
     </div>
 </section>
 
-
+<footer class="mbr-small-footer mbr-section mbr-section-nopadding" id="footer1-r" style="background-color: rgb(50, 50, 50); padding-top: 1.75rem; padding-bottom: 1.75rem; margin-top: 400px;">
+    
+    <div class="container">
+        <p class="text-xs-center">Copyright (c) 2016 니팜내팜.</p>
+    </div>
+</footer>
 
 
   <%@include file="includes/scripts.jsp" %>

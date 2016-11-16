@@ -106,6 +106,18 @@ public class HomeController {
 		}
 	}
 	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public void logout(Locale locale, Model model, HttpServletResponse response, HttpServletRequest request) throws IOException {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		SingletonSetting ssi = SingletonSetting.getInstance();
+		ssi.setAllParameter(model);
+
+		request.getSession().setAttribute("memberVo", null);
+
+		response.sendRedirect(ssi.getPath());
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/inner/admin/api/check-form-info/{scale}", method = RequestMethod.POST)
 	public HashMap<String, Object> scaleListData(@PathVariable("scale") int scale) {
