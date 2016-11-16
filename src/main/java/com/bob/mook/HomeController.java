@@ -21,6 +21,8 @@ import com.bob.dao.check_date.CheckDateDao;
 import com.bob.dao.check_date.CheckDateVo;
 import com.bob.dao.check_form_info.CheckFormInfoDao;
 import com.bob.dao.check_form_info.CheckFormInfoVo;
+import com.bob.dao.farm_image.FarmImageDao;
+import com.bob.dao.farm_image.FarmImageVo;
 import com.bob.dao.farm_info.FarmInfoDao;
 import com.bob.dao.farm_info.FarmInfoVo;
 import com.bob.dao.member.MemberDao;
@@ -80,10 +82,17 @@ public class HomeController {
 		CheckDateDao cdDao = new CheckDateDao();
 		CheckDateVo cdVo = cdDao.selectByFarmInfoIndexAndFormCount(farm_info_index, form_count);
 		
-		System.out.println(cdVo.getCheck_date() + " " + farm_info_index + " " + form_count);
-		
 		model.addAttribute("cdVo", cdVo);
-
+		
+		
+		// 농장 이미지 FileHash 가져오기
+		FarmImageDao fimdao = new FarmImageDao();
+		FarmImageVo fimvo = new FarmImageVo();
+		
+		fimvo = fimdao.selectByFarmInfoIndexAndFormCount(farm_info_index, form_count);
+		
+		model.addAttribute("farm_image_file_hash", fimvo.getFile_hash());
+		
 		return "result";
 	}
 	
@@ -140,6 +149,47 @@ public class HomeController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/inner/admin/api/farm-id-list", method = RequestMethod.POST)
+	public HashMap<String, Object> farmIdListData() {
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		FarmInfoDao dao = new FarmInfoDao();
+		List<FarmInfoVo> list = dao.selectAll();
+		
+		for(int i = 0; i < list.size(); i++) {
+			FarmInfoVo vo = list.get(i);
+			String arr[] = new String[2];
+			arr[0] = Integer.toString(vo.getIndex());
+			arr[1] = vo.getFarm_id();
+
+			hashmap.put(Integer.toString(i), arr);
+		}
+		return hashmap;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/inner/admin/api/farm-info-by-farm-id/{farmId}", method = RequestMethod.POST)
+	public HashMap<String, Object> farmInfoByFarmId(@PathVariable("farmId") String farmId) {
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		FarmInfoDao dao = new FarmInfoDao();
+		
+		FarmInfoVo vo = dao.selectByFarmId(farmId);
+		String arr[] = new String[4];
+		arr[0] = Integer.toString(vo.getIndex());
+		arr[1] = vo.getFarm_name();
+		arr[2] = vo.getLocation();
+		
+		switch(vo.getScale()) {
+		case 1: arr[3] = "소규모";break;
+		case 2: arr[3] = "중규모";break;
+		case 3: arr[3] = "대규모";break;
+		}
+
+		hashmap.put(Integer.toString(0), arr);
+		return hashmap;
+	}
+	
+	
+	@ResponseBody
 	@RequestMapping(value = "/inner/api/result/{scale}/{farm_info_index}/{form_count}", method = RequestMethod.POST)
 	public HashMap<String, Object> resultListData(Model model, @PathVariable("scale") int scale, @PathVariable("farm_info_index") int farm_info_index,
 			@PathVariable("form_count") int form_count) {
@@ -151,8 +201,6 @@ public class HomeController {
 		CheckFormInfoDao dao = new CheckFormInfoDao();
 		List<CheckFormInfoVo> cfilist = dao.selectByScale(scale);
 		SubmitedFormDao sfdao = new SubmitedFormDao();
-		
-		System.out.println(farm_info_index + " " + form_count);
 		
 
 		for(int i = 0; i < cfilist.size(); i++) {

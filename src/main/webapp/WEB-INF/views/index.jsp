@@ -288,7 +288,7 @@ textarea {
 
 </section>
 
-<section class="mbr-section mbr-section-nopadding" id="map1-2">
+<section class="mbr-section mbr-section-nopadding" id="map1-2" style="height: 400px;">
     <div class="mbr-map" style="width:49.9%; display:inline-block; float:left;">
     	<iframe frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0Dx_boXQiwvdz8sJHoYeZNVTdoWONYkU&amp;q=place_id:ChIJE8jWVlehfDUR9DTAISM7lQA" allowfullscreen=""></iframe>
     </div>
@@ -297,12 +297,7 @@ textarea {
     </div>
 </section>
 
-<footer class="mbr-small-footer mbr-section mbr-section-nopadding" id="footer1-r" style="background-color: rgb(50, 50, 50); padding-top: 1.75rem; padding-bottom: 1.75rem; margin-top: 400px;">
-    
-    <div class="container">
-        <p class="text-xs-center">Copyright (c) 2016 니팜내팜.</p>
-    </div>
-</footer>
+<%@include file="includes/footer.jsp" %>
 
 
   <%@include file="includes/scripts.jsp" %>

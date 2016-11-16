@@ -65,6 +65,34 @@ public class FarmInfoDao {
 		return vo;
 	}
 	
+	public FarmInfoVo selectByFarmId(final String farmId) {
+		sql = new StringBuffer();
+		sql.append("SELECT * FROM ");
+		sql.append("farm_info WHERE ");
+		sql.append("`farm_id`=?");
+		
+		new AbstractDao() {
+			@Override
+			public void query() throws Exception {
+				pstmt = con.prepareStatement(sql.toString());
+				pstmt.setString(1, farmId);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					vo.setIndex(rs.getInt(1));
+					vo.setMember_index(rs.getInt(2));
+					vo.setFarm_name(rs.getString(3));
+					vo.setLast_check_date(rs.getString(4));
+					vo.setLocation(rs.getString(5));
+					vo.setScale(rs.getInt(6));
+					vo.setCheck_count(rs.getInt(7));
+					vo.setFarm_id(rs.getString(8));
+				}
+			}
+		}.execute();
+		return vo;
+	}
+	
 
 /*	
 	public List<FarmInfoVo> selectByScale(final int scale) {
@@ -161,6 +189,7 @@ public class FarmInfoDao {
 					vo.setLocation(rs.getString(5));
 					vo.setScale(rs.getInt(6));
 					vo.setCheck_count(rs.getInt(7));
+					vo.setFarm_id(rs.getString(8));
 					
 					list.add(vo);
 				}

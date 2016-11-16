@@ -451,6 +451,7 @@ p:last-child {
 		<div class="cards" style="margin-top:100px;">
 			<article class="card card_size-m">
 				<header class="card__header">
+					<img class="card__preview" id="farm-image" src="${path}inner/api/image/${farm_image_file_hash}" alt="Preview img">
 				</header>
 				<div class="card__body">
 					<div class="card__content">
@@ -512,6 +513,7 @@ p:last-child {
 		</div>
 	</div>
 	
+	<%@include file="includes/footer.jsp" %>
 
   <%@include file="includes/scripts.jsp" %>
   
@@ -637,6 +639,8 @@ p:last-child {
 			    }
 			}); 
 });
+
+  
   
 	  
   

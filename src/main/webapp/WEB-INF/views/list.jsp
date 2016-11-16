@@ -148,6 +148,14 @@
 	.display-none {
 		display: none;
 	}
+	
+	
+	
+.ui-autocomplete {
+	z-index: 9999;
+}	
+	
+	
   </style>
   
   
@@ -205,19 +213,18 @@
                                 <div hidden="" data-form-alert-success="true" class="alert alert-form alert-success text-xs-center">Thanks for filling out form!</div>
                             </div>
                             <form id="submitForm" action="submit-checklist" method="post" enctype="multipart/form-data" data-form-title="INTRO WITH FORM">
-                                    <div class="col-xs-12" style="padding-bottom: 5px;">
-                                         <input type="text" class="form-control" name="farmName" required="" data-form-field="farmName" placeholder="농장명">
+                            		<div class="col-xs-12" style="padding-bottom: 5px;">
+                                         <input type="text" class="form-control" id="farmId" name="farmId" required="" data-form-field="farmId" placeholder="농장 ID">
                                     </div>
                                     <div class="col-xs-12" style="padding-bottom: 5px;">
-                                         <input type="text" class="form-control" name="farmerId" required="" data-form-field="farmerId" placeholder="농장주 ID">
+                                         <input type="text" class="form-control" id="farmName" name="farmName" required="" data-form-field="farmName" placeholder="농장명" disabled>
                                     </div>
-
                                     <div class="col-xs-12" style="padding-bottom: 5px;"> 
-                                         <input type="text" id="datepicker" class="form-control" name="checkDate" required="" data-form-field="checkDate" placeholder="점검일">    
+                                         <input type="text" id="datepicker" class="form-control" name="checkDate" required="" data-form-field="checkDate" placeholder="점검일" autocomplete="off">    
                                     </div>
 
                                     <div class="col-xs-12" style="padding-bottom: 5px;">
-                                         <select class="form-control" name="location">
+                                         <select class="form-control" id="location" name="location" disabled>
                                           <option>지역</option>
 										  <option>서울</option>
 										  <option>경기</option>
@@ -233,7 +240,7 @@
                                     </div>
 
                                     <div class="col-xs-12" style="padding-bottom: 5px;">
-                                         <select class="form-control" name="scale" id="scale">
+                                         <select class="form-control" name="scale" id="scale" disabled>
                                           <option>규모</option>
 										  <option>대규모</option>
 										  <option>중규모</option>
@@ -243,7 +250,7 @@
                                     
                                     <div class="col-xs-12" style="padding-bottom: 5px;"> 
                                          <div class='filebox'>
-                                         	<label for='farm_image'>업로드</label>
+                                         	<label for='farm_image'>농장 사진</label>
                                          	<input type='file' id='farm_image' name='farm_image' onchange='fileUpload(this);'>
                                          </div>
                                     </div>
@@ -281,6 +288,8 @@
     </div>
   </div>
 </div>
+
+<%@include file="includes/footer.jsp" %>
 
 <%@include file="includes/scripts.jsp" %>
   
@@ -337,10 +346,7 @@
 	  });
 	});
   
-  $("#scale").change(function(){
-      console.log($(this).val());
-      makeForm($(this).val());
-});
+
   
 function makeForm(scale) {
 	var request_scale = 0;
@@ -485,7 +491,44 @@ function fileUpload(uploaded_file_input) {
 	} );
   </script>
   
-		  
+
+<!-- id 자동완성 -->
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script>
+var availableTags = new Array();
+  $( function() {
+    $('#farmId').autocomplete({
+      source: availableTags
+    });
+  } );
+  
+  $(document).ready(function() {
+		$.ajax({
+			url : "${path}inner/admin/api/farm-id-list",
+			type : "post",
+			success : function(data) {
+				for(var i = 0, len = Object.keys(data).length; i < len;i++) {
+		        	availableTags.push(data[i][1]);
+		        }
+			}
+		});
+	});
+
+  $('#farmId').on("focusout", function(event) {
+	  $.ajax({
+			url : "${path}inner/admin/api/farm-info-by-farm-id/" + $(event.target).val(),
+			type : "post",
+			success : function(data) {
+				$('#farmName').val(data[0][1]);
+				$('#location').val(data[0][2]);
+				$('#scale').val(data[0][3]);
+				
+				makeForm(data[0][3]);
+			}
+		});
+  });
+  
+</script>
   
   <input name="animation" type="hidden">
   </body>

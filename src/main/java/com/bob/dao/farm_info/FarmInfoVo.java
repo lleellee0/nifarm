@@ -8,6 +8,7 @@ public class FarmInfoVo {
 	String location;
 	int scale;
 	int check_count;
+	String farm_id;
 	public int getIndex() {
 		return index;
 	}
@@ -49,5 +50,11 @@ public class FarmInfoVo {
 	}
 	public void setCheck_count(int check_count) {
 		this.check_count = check_count;
+	}
+	public String getFarm_id() {
+		return farm_id;
+	}
+	public void setFarm_id(String farm_id) {
+		this.farm_id = farm_id;
 	}
 }

@@ -28,6 +28,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bob.dao.check_date.CheckDateDao;
 import com.bob.dao.check_date.CheckDateVo;
+import com.bob.dao.farm_image.FarmImageDao;
+import com.bob.dao.farm_image.FarmImageVo;
 import com.bob.dao.farm_info.FarmInfoDao;
 import com.bob.dao.farm_info.FarmInfoVo;
 import com.bob.dao.member.MemberDao;
@@ -50,7 +52,7 @@ public class FileController {
 	 */
 	
 	@RequestMapping(value = "/inner/api/file/{file_hash}", method = RequestMethod.GET)
-	public void login(Locale locale, Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable("file_hash") String file_hash) throws IOException {
+	public void fileDownload(Locale locale, Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable("file_hash") String file_hash) throws IOException {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		SingletonSetting ssi = SingletonSetting.getInstance();
@@ -93,6 +95,52 @@ public class FileController {
         
 	}
 	
+	@RequestMapping(value = "/inner/api/image/{file_hash}", method = RequestMethod.GET)
+	public void farmImage(Locale locale, Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable("file_hash") String file_hash) throws IOException {
+		logger.info("Welcome home! The client locale is {}.", locale);
+
+		SingletonSetting ssi = SingletonSetting.getInstance();
+		ssi.setAllParameter(model);
+		
+		FarmImageDao fimdao = new FarmImageDao();
+		FarmImageVo fimvo = fimdao.selectByFileHash(file_hash);
+		
+		File downloadFile = new File(ssi.getFilePath() + fimvo.getFile_hash());
+
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fimvo.getOriginal_file_name() + "\";");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+        OutputStream out = response.getOutputStream();
+		
+        FileInputStream fis = null;
+        
+        try {
+             
+            fis = new FileInputStream(downloadFile);
+             
+            FileCopyUtils.copy(fis, out);
+             
+             
+        } catch(Exception e){
+             
+            e.printStackTrace();
+             
+        }finally{
+             
+            if(fis != null){
+                 
+                try{
+                    fis.close();
+                }catch(Exception e){}
+            }
+             
+        }// try end;
+         
+        out.flush();
+        
+	}
+	
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "/inner/submit-checklist", method = RequestMethod.POST, produces = "application/json; charset=utf8")
     public Object uploadFile(MultipartHttpServletRequest request) throws UnsupportedEncodingException {
@@ -100,7 +148,7 @@ public class FileController {
 		// 농장주 ID 검색 후 있으면 member의 index에 저장해주고 없으면 ㅌㅌ하자
 		Enumeration paramNames = request.getParameterNames(); 
 		String farmName = null;
-		String farmerId = null;
+		String farmId = null;
 		String checkDate = null;
 		String location = null;
 		String scale = null;
@@ -116,8 +164,8 @@ public class FileController {
             String[] paramValues = request.getParameterValues(paramName);
             if(paramName.matches("farmName")) {
             	farmName = paramValues[0];
-        	} else if(paramName.matches("farmerId")) {
-        		farmerId = paramValues[0];
+        	} else if(paramName.matches("farmId")) {
+        		farmId = paramValues[0];
         	} else if(paramName.matches("checkDate")) {
         		checkDate = paramValues[0];
         	} else if(paramName.matches("location")) {
@@ -126,57 +174,30 @@ public class FileController {
         		scale = paramValues[0];
         	}
         } 
-        System.out.println("id :" + farmerId);
-        
-        if(!isExistFarmer(farmerId)) {
+
+        if(!isExistFarm(farmId)) {
         	System.out.println("그런 id 없어요~");
         	return false;
         }
         
-        if(!isExistFarm(farmerId)) {
-        	// 농장이 없으니까 만들어줘야지 (insert into farm_info)
-        	System.out.println("이름없네? 농장 ㄱ");
-        	FarmInfoDao fidao = new FarmInfoDao();
-        	FarmInfoVo fivo = new FarmInfoVo();
-        	
-        	MemberDao mdao = new MemberDao();
-        	
-        	fivo.setMember_index(mdao.selectById(farmerId).getIndex());
-        	fivo.setFarm_name(farmName);
-        	fivo.setLast_check_date(checkDate);
-        	fivo.setLocation(location);
-        	int iScale = 0;
-        	if("대규모".equals(scale))
-        		iScale = 3;
-        	else if("중규모".equals(scale))
-        		iScale = 2;
-        	else if("소규모".equals(scale))
-        		iScale = 1;
-        	fivo.setScale(iScale);
-        	fivo.setCheck_count(1);
-        	
-        	fidao.insert(fivo);
-        } else {
-        	// 이미 체크를 한번 했던 농장이니까 마지막 체크 일자 수정, count 증가
-        	FarmInfoDao fidao = new FarmInfoDao();
-        	MemberDao mdao = new MemberDao();
-        	FarmInfoVo fivo = fidao.selectByMemberIndex((mdao.selectById(farmerId).getIndex()));
-        	
-        	fivo.setLast_check_date(checkDate);
-        	fivo.setCheck_count(fivo.getCheck_count() + 1);
-        	System.out.println(fivo.getCheck_count());
-        	
-        	fidao.update(fivo);
-        }
+       	// 이미 체크를 한번 했던 농장이니까 마지막 체크 일자 수정, count 증가
+       	FarmInfoDao fidao = new FarmInfoDao();
+       	MemberDao mdao = new MemberDao();
+       	FarmInfoVo fivo = fidao.selectByFarmId(farmId);
+      	
+       	fivo.setLast_check_date(checkDate);
+       	fivo.setCheck_count(fivo.getCheck_count() + 1);
+       	
+       	fidao.update(fivo);
         
-        FarmInfoDao fidao = new FarmInfoDao();
-        MemberDao mdao = new MemberDao();
-        current_farm_info_index = farm_info_index = fidao.selectByMemberIndex(mdao.selectById(farmerId).getIndex()).getIndex();
-        current_form_count = form_count = fidao.selectByMemberIndex(mdao.selectById(farmerId).getIndex()).getCheck_count();
+        fidao = new FarmInfoDao();
+        mdao = new MemberDao();
+        current_farm_info_index = farm_info_index = fidao.selectByFarmId(farmId).getIndex();
+        current_form_count = form_count = fidao.selectByFarmId(farmId).getCheck_count();
         		
 		SubmitedFormDao sfdao = new SubmitedFormDao();
 		
-		FarmInfoVo fivo = new FarmInfoVo();
+		fivo = new FarmInfoVo();
 		
 		paramNames = request.getParameterNames(); 
         while(paramNames.hasMoreElements()) { 
@@ -217,6 +238,9 @@ public class FileController {
         		MultipartFile mpf = request.getFile(itr.next());
         		System.out.println(mpf.getName());	// name 이름
         		
+        		if(mpf.getName().equals("farm_image"))	// 농장 사진에 대한 예외처리
+        			continue;
+        		
         		int current_check_form_info_index = Integer.parseInt(mpf.getName().substring(5));
         		SubmitedFormVo sfvo = sfdao.selectByFarmInfoIndexAndFormCountAndCheckFormInfoIndex(current_farm_info_index, current_form_count, current_check_form_info_index);
         		
@@ -225,8 +249,7 @@ public class FileController {
         		sfvo.setFile_hash(filehash);
 
         		sfdao.update(sfvo);
-        		
-                System.out.println(mpf.getOriginalFilename() +" uploaded!");
+
                 try {
                     //just temporary save file info into ufile
                 	File f = multipartToFile(mpf, filehash);
@@ -236,29 +259,57 @@ public class FileController {
                     e.printStackTrace();
                 }
         	}
+        	
+        	
+        	//농장 이미지 업로드
+        	MultipartFile mpf = request.getFile("farm_image");
+        	
+        	FarmImageDao fimdao = new FarmImageDao();
+        	FarmImageVo fimvo = new FarmImageVo();
+        	
+        	fimvo.setFarm_info_index(farm_info_index);
+        	fimvo.setForm_count(form_count);
+        	fimvo.setOriginal_file_name(mpf.getOriginalFilename());
+        	
+        	String filehash = getSHA256(mpf.getOriginalFilename() + "sssssssaaaaaaaaallllllllllllllttttttttt" + Math.random() * Math.random());
+        	
+        	fimvo.setFile_hash(filehash);
+        	fimdao.insert(fimvo);
+        	
+        	try {
+                //just temporary save file info into ufile
+            	File f = multipartToFile(mpf, filehash);
+            	
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        	
         	return true;
         } else {
         	System.out.println("No File!");
             return true;
         }
+        
+        
     }
 	
-	private boolean isExistFarmer(String farmerId) {
-		MemberDao mdao = new MemberDao();
-		MemberVo mvo = mdao.selectById(farmerId);
-		
-		if(mvo.getIndex() != 0)
-			return true;
-		
-		return false;
-	}
 	
-	private boolean isExistFarm(String farmerId) {
+	private boolean isExistFarm(String farmId) {
+		/*
 		MemberDao mdao = new MemberDao();
 		FarmInfoDao fidao = new FarmInfoDao();
 		MemberVo mvo = mdao.selectById(farmerId);
 		
 		if(fidao.selectByMemberIndex(mvo.getIndex()).getIndex() != 0)
+			return true;
+		
+		return false;
+		*/
+		FarmInfoDao fidao = new FarmInfoDao();
+		FarmInfoVo fivo = fidao.selectByFarmId(farmId);
+		
+		if(fivo.getIndex() != 0)
 			return true;
 		
 		return false;
