@@ -93,6 +93,7 @@ public class HomeController {
 		
 		model.addAttribute("farm_image_file_hash", fimvo.getFile_hash());
 		
+		
 		return "result";
 	}
 	
@@ -167,6 +168,73 @@ public class HomeController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/inner/admin/api/scale", method = RequestMethod.POST)
+	public HashMap<String, Object> scaleListData() {
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		FarmInfoDao dao = new FarmInfoDao();
+		List<FarmInfoVo> list = dao.selectAll();
+		
+		int scaleCountArr[] = new int[3];
+		
+		for(int i = 0; i < list.size(); i++) {
+			FarmInfoVo vo = list.get(i);
+			scaleCountArr[vo.getScale()-1]++;
+		}
+		
+		String scaleStringArr[] = {"소규모", "중규모", "대규모"};
+		
+		for(int i = 0; i < scaleCountArr.length; i++) {
+			String arr[] = new String[2];
+			arr[0] = scaleStringArr[i];
+			arr[1] = Integer.toString(scaleCountArr[i]);
+			hashmap.put(Integer.toString(i), arr);
+		}
+			
+
+		return hashmap;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/inner/admin/api/location", method = RequestMethod.POST)
+	public HashMap<String, Object> locationListData() {
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		FarmInfoDao dao = new FarmInfoDao();
+		List<FarmInfoVo> list = dao.selectAll();
+		
+		int locationCountArr[] = new int[10];
+		String locationStringArr[] = {"서울","경기","강원","충남","충북",
+				"경북","경남","전북","전남","제주"
+		};
+
+		
+		for(int i = 0; i < list.size(); i++) {
+			FarmInfoVo vo = list.get(i);
+			switch(vo.getLocation()) {
+			case "서울": locationCountArr[0]++; break;
+			case "경기": locationCountArr[1]++; break;
+			case "강원": locationCountArr[2]++; break;
+			case "충남": locationCountArr[3]++; break;
+			case "충북": locationCountArr[4]++; break;
+			case "경북": locationCountArr[5]++; break;
+			case "경남": locationCountArr[6]++; break;
+			case "전북": locationCountArr[7]++; break;
+			case "전남": locationCountArr[8]++; break;
+			case "제주": locationCountArr[9]++; break;
+			}
+		}
+		
+		for(int i = 0; i < locationStringArr.length; i++) {
+			String arr[] = new String[2];
+			arr[0] = locationStringArr[i];
+			arr[1] = Integer.toString(locationCountArr[i]);
+
+			hashmap.put(Integer.toString(i), arr);
+		}
+		return hashmap;
+	}
+	
+	
+	@ResponseBody
 	@RequestMapping(value = "/inner/admin/api/farm-info-by-farm-id/{farmId}", method = RequestMethod.POST)
 	public HashMap<String, Object> farmInfoByFarmId(@PathVariable("farmId") String farmId) {
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
@@ -205,7 +273,7 @@ public class HomeController {
 
 		for(int i = 0; i < cfilist.size(); i++) {
 			CheckFormInfoVo cfivo = cfilist.get(i);
-			SubmitedFormVo sfvo = sfdao.selectByFarmInfoIndexAndFormCountAndCheckFormInfoIndex(farm_info_index, form_count, i + 1);
+			SubmitedFormVo sfvo = sfdao.selectByFarmInfoIndexAndFormCountAndCheckFormInfoIndex(farm_info_index, form_count, cfivo.getIndex());
 			String arr[] = new String[9];
 			arr[0] = Integer.toString(cfivo.getIndex());
 			arr[1] = Integer.toString(cfivo.getCategory());
@@ -236,11 +304,12 @@ public class HomeController {
 		
 		for(int i = 0; i < cdlist.size(); i++) {
 			CheckDateVo cdvo = cdlist.get(i);
-			String arr[] = new String[4];
+			String arr[] = new String[5];
 			arr[0] = Integer.toString(cdvo.getIndex());
 			arr[1] = Integer.toString(cdvo.getFarm_info_index());
 			arr[2] = Integer.toString(cdvo.getForm_count());
 			arr[3] = cdvo.getCheck_date();
+			arr[4] = cdvo.getOpinion();
 			
 			hashmap.put(Integer.toString(i), arr);
 		}

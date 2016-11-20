@@ -5,6 +5,7 @@ public class CheckDateVo {
 	int farm_info_index;
 	int form_count;
 	String check_date;
+	String opinion;
 	public int getIndex() {
 		return index;
 	}
@@ -28,5 +29,11 @@ public class CheckDateVo {
 	}
 	public void setCheck_date(String check_date) {
 		this.check_date = check_date;
+	}
+	public String getOpinion() {
+		return opinion;
+	}
+	public void setOpinion(String opinion) {
+		this.opinion = opinion;
 	}
 }

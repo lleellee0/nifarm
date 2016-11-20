@@ -189,12 +189,23 @@
     </div>
 </section>
 
-<section class="mbr-section article mbr-section__container" id="content6-d" style="background-color: rgb(255, 255, 255); padding-top: 20px; padding-bottom: 20px;">
+<section class="mbr-section article mbr-section__container" id="content6-d" style="background-color: rgb(255, 255, 255); padding-top: 100px; padding-bottom: 100px;">
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-md-6 lead"><div id="scaleChartdiv"></div></div>
-            <div class="col-xs-12 col-md-6 lead"><div id="locationChartdiv"></div></div>
+            <div class="col-xs-12 col-md-6 lead">
+            	<div id="scaleChartdiv" style="height:300px;">
+            		<canvas id="scaleChart" style="width:50%;height:50%;">
+            		</canvas>
+            	</div>
+            </div>
+            
+            <div class="col-xs-12 col-md-6 lead">
+            	<div id="locationChartdiv" style="height:300px;">
+            		<canvas id="locationChart" style="width:50%;height:50%;">
+            		</canvas>
+            	</div>
+            </div>
         </div>
     </div>
 
@@ -263,7 +274,8 @@
                                     </div>
                                     
                                     <div class="col-xs-12 display-none" id="opinion" style="padding-bottom: 15px; padding-top: 15px;">
-								        <input type="text" class="form-control" name="checkerOpinion" required="" data-form-field="checkerOpinion" placeholder="점검자 소견">
+								        <textarea class="form-control" name="checkerOpinion" required="" 
+								        data-form-field="checkerOpinion" placeholder="점검자 소견" style="height:200px;"></textarea>
 					                </div>
                                     
                                     <input id="form-submit-button" type="submit" value="Submit" style="float:right;" class="btn btn-primary"
@@ -292,6 +304,139 @@
 <%@include file="includes/footer.jsp" %>
 
 <%@include file="includes/scripts.jsp" %>
+  
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js"></script>
+  
+  <script>
+  
+  $(document).ready(function() {
+			$.ajax({
+			    url : "${path}inner/admin/api/scale",
+			    dataType : "json",
+			    type : "post",
+			    success: function(data) {
+					// Scale(pie) Data
+					
+					var datasets_scale_data = new Array(Object.keys(data).length);
+					for(i = 0; i < Object.keys(data).length; i++) {
+						datasets_scale_data[i] = data[i][1];
+					}
+			
+					var scaleData = {
+							labels : [
+								      "소규모", 
+								      "중규모", 
+								      "대규모"
+								  ],
+						    datasets: [
+						               {
+						                   data: datasets_scale_data,
+						                   backgroundColor: [
+						                       "#FF6384",
+						                       "#36A2EB",
+						                       "#FFCE56"
+						                   ],
+						                   hoverBackgroundColor: [
+						                       "#FF6384",
+						                       "#36A2EB",
+						                       "#FFCE56"
+						                   ]
+							}]
+						};
+
+					//Get the context of the Radar Chart canvas element we want to select
+					var ctx3 = document.getElementById("scaleChart").getContext("2d");
+
+					// Create the Radar Chart
+					var myRadarChart = new Chart(ctx3, {
+							type: 'pie',
+							data: scaleData,
+							options: {
+					            scale: {
+					                reverse: false,
+					                ticks: {
+					                    beginAtZero: true
+					                }
+					            }
+					    }
+					});
+			    },
+			    error:function(request,status,error){
+			        alert("code:"+request.status+"\n"+"error:"+error);
+			    }
+			}); 
+			
+			$.ajax({
+			    url : "${path}inner/admin/api/location",
+			    dataType : "json",
+			    type : "post",
+			    success: function(data) {
+					// Scale(pie) Data
+					
+					var datasets_location_string = new Array(Object.keys(data).length);
+					var datasets_location_data = new Array(Object.keys(data).length);
+					for(i = 0; i < Object.keys(data).length; i++) {
+						datasets_location_string[i] = data[i][0];
+						datasets_location_data[i] = data[i][1];
+					}
+			
+					var locationData = {
+							labels : datasets_location_string,
+						    datasets: [
+						               {
+						                   data: datasets_location_data,
+						                   backgroundColor: [
+						                       "#BC8F8F",
+						                       "#CD853F",
+						                       "#D2B48C",
+						                       "#DEB887",
+						                       "#F0E68C",
+						                       "#9ACD32",
+						                       "#2E8B57",
+						                       "#008080",
+						                       "#40E0D0",
+						                       "#BA55D3"
+						                   ],
+						                   hoverBackgroundColor: [
+												"#BC8F8F",
+												"#CD853F",
+												"#D2B48C",
+												"#DEB887",
+												"#F0E68C",
+												"#9ACD32",
+												"#2E8B57",
+												"#008080",
+												"#40E0D0",
+												"#BA55D3"
+						                   ]
+							}]
+						};
+
+					//Get the context of the Radar Chart canvas element we want to select
+					var ctx3 = document.getElementById("locationChart").getContext("2d");
+
+					// Create the Radar Chart
+					var myRadarChart = new Chart(ctx3, {
+							type: 'pie',
+							data: locationData,
+							options: {
+					            scale: {
+					                reverse: false,
+					                ticks: {
+					                    beginAtZero: true
+					                }
+					            }
+					    }
+					});
+			    },
+			    error:function(request,status,error){
+			        alert("code:"+request.status+"\n"+"error:"+error);
+			    }
+			}); 
+});
+  
+  </script>
   
   
   <script>
@@ -418,78 +563,7 @@ function fileUpload(uploaded_file_input) {
   
   </script>
   
-  
-  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/pie.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-  <script>
-  var scaleChart = AmCharts.makeChart( "scaleChartdiv", {
-	  "type": "pie",
-	  "theme": "light",
-	  "dataProvider": [ {
-	    "country": "대규모",
-	    "litres": 1
-	  }, {
-	    "country": "중규모",
-	    "litres": 4
-	  }, {
-	    "country": "소규모",
-	    "litres": 1
-	  } ],
-	  "valueField": "litres",
-	  "titleField": "country",
-	   "balloon":{
-	   "fixedPosition":true
-	  },
-	  "export": {
-	    "enabled": true
-	  }
-	} );
-  var locationChart = AmCharts.makeChart( "locationChartdiv", {
-	  "type": "pie",
-	  "theme": "light",
-	  "dataProvider": [ {
-	    "country": "서울",
-	    "litres": 1
-	  }, {
-	    "country": "강원",
-	    "litres": 7
-	  }, {
-	    "country": "경기",
-	    "litres": 6
-	  }, {
-		"country": "충남",
-	 	"litres": 3
-	  }, {
-		"country": "충북",
-		"litres": 10
-	  }, {
-		"country": "경북",
-		"litres": 14
-	  }, {
-		"country": "경남",
-		"litres": 21
-	  }, {
-		"country": "전북",
-		"litres": 11
-	  }, {
-		"country": "전남",
-		"litres": 90
-	  }, {
-		"country": "제주",
-		"litres": 60
-	  } ],
-	  
-	  "valueField": "litres",
-	  "titleField": "country",
-	   "balloon":{
-	   "fixedPosition":true
-	  },
-	  "export": {
-	    "enabled": true
-	  }
-	} );
-  </script>
+
   
 
 <!-- id 자동완성 -->

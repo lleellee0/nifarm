@@ -152,6 +152,7 @@ public class FileController {
 		String checkDate = null;
 		String location = null;
 		String scale = null;
+		String opinion = null;
 		
 		int farm_info_index = 0;
 		int form_count = 0;
@@ -172,6 +173,8 @@ public class FileController {
         		location = paramValues[0];
         	} else if(paramName.matches("scale")) {
         		scale = paramValues[0];
+        	} else if(paramName.matches("checkerOpinion")) {
+        		opinion = paramValues[0];
         	}
         } 
 
@@ -224,7 +227,8 @@ public class FileController {
         CheckDateVo cdvo = new CheckDateVo();
         cdvo.setCheck_date(checkDate);
         cdvo.setFarm_info_index(current_farm_info_index);
-        cdvo.setForm_count(current_form_count);
+        cdvo.setForm_count(current_form_count);        
+        cdvo.setOpinion(opinion.replace("\n", "<br>"));
         cddao.insert(cdvo);
         
         
@@ -290,6 +294,7 @@ public class FileController {
         	System.out.println("No File!");
             return true;
         }
+        
         
         
     }

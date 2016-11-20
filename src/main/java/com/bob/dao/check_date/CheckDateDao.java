@@ -29,6 +29,7 @@ public class CheckDateDao {
 					vo.setFarm_info_index(rs.getInt(2));
 					vo.setForm_count(rs.getInt(3));
 					vo.setCheck_date(rs.getString(4));
+					vo.setOpinion(rs.getString(5));
 				}
 			}
 		}.execute();
@@ -55,6 +56,7 @@ public class CheckDateDao {
 					vo.setFarm_info_index(rs.getInt(2));
 					vo.setForm_count(rs.getInt(3));
 					vo.setCheck_date(rs.getString(4));
+					vo.setOpinion(rs.getString(5));
 				}
 			}
 		}.execute();
@@ -80,6 +82,7 @@ public class CheckDateDao {
 					vo.setFarm_info_index(rs.getInt(2));
 					vo.setForm_count(rs.getInt(3));
 					vo.setCheck_date(rs.getString(4));
+					vo.setOpinion(rs.getString(5));
 					list.add(vo);
 				}
 			}
@@ -120,8 +123,8 @@ public class CheckDateDao {
 	public void insert(final CheckDateVo vo) {
 		sql = new StringBuffer();
 		sql.append("INSERT INTO check_date ");
-		sql.append("(`farm_info_index`, `form_count`, `check_date`) ");
-		sql.append("VALUES (?, ?, ?)");
+		sql.append("(`farm_info_index`, `form_count`, `check_date`, `opinion`) ");
+		sql.append("VALUES (?, ?, ?, ?)");
 		
 		new AbstractDao() {
 			@Override
@@ -130,6 +133,7 @@ public class CheckDateDao {
 				pstmt.setInt(1, vo.getFarm_info_index());
 				pstmt.setInt(2, vo.getForm_count());
 				pstmt.setString(3, vo.getCheck_date());
+				pstmt.setString(4, vo.getOpinion());
 				
 				pstmt.executeUpdate();
 			}
