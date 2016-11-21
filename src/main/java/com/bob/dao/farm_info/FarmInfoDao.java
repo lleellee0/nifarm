@@ -126,8 +126,8 @@ public class FarmInfoDao {
 	public void insert(final FarmInfoVo vo) {
 		sql = new StringBuffer();
 		sql.append("INSERT INTO farm_info ");
-		sql.append("(`member_index`, `farm_name`, `last_check_date`, `location`, `scale`, `check_count`) ");
-		sql.append("VALUES (?, ?, ?, ?, ?, ?)");
+		sql.append("(`member_index`, `farm_name`, `last_check_date`, `location`, `scale`, `check_count`, `farm_id`) ");
+		sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");
 		
 		new AbstractDao() {
 			@Override
@@ -139,6 +139,7 @@ public class FarmInfoDao {
 				pstmt.setString(4, vo.getLocation());
 				pstmt.setInt(5, vo.getScale());
 				pstmt.setInt(6, vo.getCheck_count());
+				pstmt.setString(7, vo.getFarm_id());
 				
 				pstmt.executeUpdate();
 			}

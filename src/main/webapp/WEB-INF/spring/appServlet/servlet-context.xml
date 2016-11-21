@@ -34,7 +34,7 @@
 			<beans:bean class="com.bob.interceptor.LoginInterCeptor"/>
 		</interceptor>
 		<interceptor>
-			<mapping path="/admin/**"/>
+			<mapping path="/adminaaaa123/**"/>
 			<beans:bean class="com.bob.interceptor.AdminInterCeptor"/>
 		</interceptor>
 	</interceptors>

@@ -95,7 +95,7 @@ public class CompanyInfoDao {
 	public void insert(final CompanyInfoVo vo) {
 		sql = new StringBuffer();
 		sql.append("INSERT INTO company_info ");
-		sql.append("(`member_index`, `company_name`, `last_check_date`, `location`, `check_count`) ");
+		sql.append("(`member_index`, `company_name`, `last_check_date`, `location`, `check_count`, `company_id`) ");
 		sql.append("VALUES (?, ?, ?, ?, ?, ?)");
 		
 		new AbstractDao() {
@@ -107,6 +107,7 @@ public class CompanyInfoDao {
 				pstmt.setString(3, vo.getLast_check_date());
 				pstmt.setString(4, vo.getLocation());
 				pstmt.setInt(5, vo.getCheck_count());
+				pstmt.setString(6, vo.getCompany_id());
 				
 				pstmt.executeUpdate();
 			}

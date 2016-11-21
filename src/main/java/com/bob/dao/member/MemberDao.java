@@ -85,6 +85,25 @@ public class MemberDao {
 		return mv;
 	}
 	
+	public int insert(final MemberVo vo) {
+		sql.append("INSERT INTO member ");
+		sql.append("(`id`, `password`, `is_admin`, `name`) VALUES ");
+		sql.append("(?, password(?), ?, ?)");
+		
+		new AbstractDao() {
+			@Override
+			public void query() throws Exception {
+				pstmt = con.prepareStatement(sql.toString());
+				pstmt.setString(1, vo.getId());
+				pstmt.setString(2, vo.getPassword());
+				pstmt.setInt(3, 0);
+				pstmt.setString(4, vo.getName());
+				result = pstmt.executeUpdate();
+			}
+		}.execute();
+		return result;
+	}
+	
 	public int updatePasswordByIndex(final String password, final int index) {
 		sql.append("UPDATE member ");
 		sql.append("SET password=password(?) ");

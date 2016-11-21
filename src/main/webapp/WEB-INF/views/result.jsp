@@ -596,7 +596,7 @@ p:last-child {
 									  ];
 					var datasets_data = new Array(13);
 					for(i = 0; i < 13; i++) {
-						datasets_data[i] = (y_count[i]/all_count[i]*100);
+						datasets_data[i] = Math.round((y_count[i]/all_count[i]*100));
 					}
 			
 					var radarData = {
@@ -629,6 +629,7 @@ p:last-child {
 					            scale: {
 					                reverse: false,
 					                ticks: {
+					                	max: 100,
 					                    beginAtZero: true
 					                }
 					            }
