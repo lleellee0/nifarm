@@ -95,6 +95,50 @@ public class FileController {
         
 	}
 	
+	@RequestMapping(value = "/inner/company/api/file/{file_hash}", method = RequestMethod.GET)
+	public void companyFileDownload(Locale locale, Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable("file_hash") String file_hash) throws IOException {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		SingletonSetting ssi = SingletonSetting.getInstance();
+		ssi.setAllParameter(model);
+		
+		SubmitedFormDao sfdao = new SubmitedFormDao();
+		SubmitedFormVo sfvo = sfdao.selectByFileHash(file_hash);
+		
+		File downloadFile = new File(ssi.getFilePath() + sfvo.getFile_hash());
+
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + sfvo.getOriginal_file_name() + "\";");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+        OutputStream out = response.getOutputStream();
+		
+        FileInputStream fis = null;
+        
+        try {
+             
+            fis = new FileInputStream(downloadFile);
+             
+            FileCopyUtils.copy(fis, out);
+             
+             
+        } catch(Exception e){
+             
+            e.printStackTrace();
+             
+        }finally{
+             
+            if(fis != null){
+                 
+                try{
+                    fis.close();
+                }catch(Exception e){}
+            }
+             
+        }// try end;
+         
+        out.flush();
+        
+	}
+	
 	@RequestMapping(value = "/inner/api/image/{file_hash}", method = RequestMethod.GET)
 	public void farmImage(Locale locale, Model model, HttpServletResponse response, HttpServletRequest request, @PathVariable("file_hash") String file_hash) throws IOException {
 		logger.info("Welcome home! The client locale is {}.", locale);
