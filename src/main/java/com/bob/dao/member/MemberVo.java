@@ -4,9 +4,8 @@ public class MemberVo {
 	int index;
 	String id;
 	String password;
-	boolean isAdmin;
+	boolean admin;
 	String name;
-	
 	public int getIndex() {
 		return index;
 	}
@@ -25,18 +24,21 @@ public class MemberVo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
+
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	public boolean isAdmin() {
+		return admin;
+	}
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+	
+
 	
 	
 }

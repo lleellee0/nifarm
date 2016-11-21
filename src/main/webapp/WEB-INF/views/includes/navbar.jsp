@@ -28,6 +28,19 @@
                     		</c:when>
                     		<c:otherwise>
                     			<li class="nav-item nav-link link">${memberVo.name}(${memberVo.id})님 접속중</li>
+                    			<c:choose>
+                    				<c:when test="${memberVo.admin eq true}">
+                    					<c:choose>
+                    						<c:when test="${state eq 'farm'}">
+                    							<li class="nav-item nav-btn"><a class="nav-link btn btn-white btn-white-outline" href="${path}inner/company/list">Company</a></li>
+                    						</c:when>
+                    						<c:otherwise>
+                    							<li class="nav-item nav-btn"><a class="nav-link btn btn-white btn-white-outline" href="${path}inner/list">Farm</a></li>
+                    						</c:otherwise>
+                    					</c:choose>
+                    					<li class="nav-item nav-btn"><a class="nav-link btn btn-white btn-white-outline" href="${path}admin/setting">Admin</a></li>
+                    				</c:when>
+                    			</c:choose>
 	                   			<li class="nav-item nav-btn"><a class="nav-link btn btn-white btn-white-outline" href="${path}logout">Logout</a></li>
                     		</c:otherwise>
                     	</c:choose>

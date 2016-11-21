@@ -34,9 +34,9 @@ import com.bob.dao.submited_form.SubmitedFormVo;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class FarmController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(FarmController.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -52,8 +52,10 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/inner/list", method = RequestMethod.GET)
-	public String list(Locale locale, Model model) {
+	public String list(Locale locale, Model model, HttpServletRequest request) {
 		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		request.getSession().setAttribute("state", "farm");
 		
 		SingletonSetting ssi = SingletonSetting.getInstance();
 		ssi.setAllParameter(model);
