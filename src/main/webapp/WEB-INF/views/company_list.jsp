@@ -176,7 +176,7 @@
         
         <table class="table" cellspacing="0" width="100%">
         <thead>
-        	<tr><th>번호</th><th>농장명</th><th>위치</th><th>규모</th><th>날짜</th><th>점검결과</th></tr>
+        	<tr><th>번호</th><th>기업명</th><th>위치</th><th>날짜</th><th>점검결과</th></tr>
         </thead>
 	        <tbody>
 
@@ -193,13 +193,8 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-md-6 lead">
-            	<div id="scaleChartdiv" style="height:300px;">
-            		<canvas id="scaleChart" style="width:50%;height:50%;">
-            		</canvas>
-            	</div>
-            </div>
-            
+        	<div class="col-xs-12 col-md-3 lead">
+        	</div>
             <div class="col-xs-12 col-md-6 lead">
             	<div id="locationChartdiv" style="height:300px;">
             		<canvas id="locationChart" style="width:50%;height:50%;">
@@ -211,13 +206,13 @@
 
 </section>
 
-<!-- 농장모달 -->
+<!-- 기업모달 -->
 <div class="modal fade" id="farmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Add Farm to Check List</h4>
+        <h4 class="modal-title" id="myModalLabel">Add Company to Check List</h4>
       </div>
         <div class="form-table mbr-valign-top col-md-12  formblock" data-form-type="formoid" style="padding-top: 30px;padding-bottom: 20px;">
                         	<div data-form-alert="true">
@@ -225,10 +220,10 @@
                             </div>
                             <form id="submitForm" action="submit-checklist" method="post" enctype="multipart/form-data" data-form-title="INTRO WITH FORM">
                             		<div class="col-xs-12" style="padding-bottom: 5px;">
-                                         <input type="text" class="form-control" id="farmId" name="farmId" required="" data-form-field="farmId" placeholder="농장 ID">
+                                         <input type="text" class="form-control" id="farmId" name="farmId" required="" data-form-field="farmId" placeholder="기업 ID">
                                     </div>
                                     <div class="col-xs-12" style="padding-bottom: 5px;">
-                                         <input type="text" class="form-control" id="farmName" name="farmName" required="" data-form-field="farmName" placeholder="농장명" disabled>
+                                         <input type="text" class="form-control" id="farmName" name="farmName" required="" data-form-field="farmName" placeholder="기업명" disabled>
                                     </div>
                                     <div class="col-xs-12" style="padding-bottom: 5px;"> 
                                          <input type="text" id="datepicker" class="form-control" name="checkDate" required="" data-form-field="checkDate" placeholder="점검일" autocomplete="off">    
@@ -250,18 +245,10 @@
 										</select>
                                     </div>
 
-                                    <div class="col-xs-12" style="padding-bottom: 5px;">
-                                         <select class="form-control" name="scale" id="scale" disabled>
-                                          <option>규모</option>
-										  <option>대규모</option>
-										  <option>중규모</option>
-										  <option>소규모</option>
-										</select>
-                                    </div>
                                     
                                     <div class="col-xs-12" style="padding-bottom: 5px;"> 
                                          <div class='filebox'>
-                                         	<label for='farm_image'>농장 사진</label>
+                                         	<label for='farm_image'>기업 사진</label>
                                          	<input type='file' id='farm_image' name='farm_image' onchange='fileUpload(this);'>
                                          </div>
                                     </div>
@@ -312,63 +299,7 @@
   
   $(document).ready(function() {
 			$.ajax({
-			    url : "${path}inner/admin/api/scale",
-			    dataType : "json",
-			    type : "post",
-			    success: function(data) {
-					// Scale(pie) Data
-					
-					var datasets_scale_data = new Array(Object.keys(data).length);
-					for(i = 0; i < Object.keys(data).length; i++) {
-						datasets_scale_data[i] = data[i][1];
-					}
-			
-					var scaleData = {
-							labels : [
-								      "소규모", 
-								      "중규모", 
-								      "대규모"
-								  ],
-						    datasets: [
-						               {
-						                   data: datasets_scale_data,
-						                   backgroundColor: [
-						                       "#FF6384",
-						                       "#36A2EB",
-						                       "#FFCE56"
-						                   ],
-						                   hoverBackgroundColor: [
-						                       "#FF6384",
-						                       "#36A2EB",
-						                       "#FFCE56"
-						                   ]
-							}]
-						};
-
-					//Get the context of the Radar Chart canvas element we want to select
-					var ctx3 = document.getElementById("scaleChart").getContext("2d");
-
-					// Create the Radar Chart
-					var myRadarChart = new Chart(ctx3, {
-							type: 'pie',
-							data: scaleData,
-							options: {
-					            scale: {
-					                reverse: false,
-					                ticks: {
-					                    beginAtZero: true
-					                }
-					            }
-					    }
-					});
-			    },
-			    error:function(request,status,error){
-			        alert("code:"+request.status+"\n"+"error:"+error);
-			    }
-			}); 
-			
-			$.ajax({
-			    url : "${path}inner/admin/api/location",
+			    url : "${path}inner/company/admin/api/location",
 			    dataType : "json",
 			    type : "post",
 			    success: function(data) {
@@ -442,7 +373,7 @@
   <script>
   $(document).ready(function() {
 	  $.ajax({
-		    url : "${path}inner/admin/api/dataTable",
+		    url : "${path}inner/company/admin/api/dataTable",
 		    dataType : "json",
 		    type : "post",
 		    success: function(data) {
@@ -455,8 +386,7 @@
 		        	            data[i][1],
 		        	            data[i][2],
 		        	            data[i][3],
-		        	            data[i][4],
-		        	            "<a href='${path}inner/result/" + data[i][0] + "/" + data[i][5] +  "'>" + "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span></a>"
+		        	            "<a href='${path}inner/company/result/" + data[i][0] + "/" + data[i][4] +  "'>" + "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span></a>"
 		        	]).draw(false);
 		        }
 		    },
@@ -494,7 +424,7 @@
 
   
 function makeForm(scale) {
-	var request_scale = 0;
+	var request_scale = 9999;
 	if(scale !== "규모") {
 		if(scale === "대규모")
 			request_scale = 3;
@@ -504,7 +434,7 @@ function makeForm(scale) {
 			request_scale = 1;
 		
 		$.ajax({
-		    url : "${path}inner/admin/api/check-form-info/" + request_scale,
+		    url : "${path}inner/company/admin/api/check-form-info/" + request_scale,
 		    dataType : "json",
 		    type : "post",
 		    success: function(data) {
@@ -578,7 +508,7 @@ var availableTags = new Array();
   
   $(document).ready(function() {
 		$.ajax({
-			url : "${path}inner/admin/api/farm-id-list",
+			url : "${path}inner/company/admin/api/company-id-list",
 			type : "post",
 			success : function(data) {
 				for(var i = 0, len = Object.keys(data).length; i < len;i++) {
@@ -590,7 +520,7 @@ var availableTags = new Array();
 
   $('#farmId').on("focusout", function(event) {
 	  $.ajax({
-			url : "${path}inner/admin/api/farm-info-by-farm-id/" + $(event.target).val(),
+			url : "${path}inner/company/admin/api/company-info-by-company-id/" + $(event.target).val(),
 			type : "post",
 			success : function(data) {
 				$('#farmName').val(data[0][1]);

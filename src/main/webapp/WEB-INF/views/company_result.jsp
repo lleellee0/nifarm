@@ -446,15 +446,14 @@ p:last-child {
 		<div class="cards" style="margin-top:100px;">
 			<article class="card card_size-m">
 				<header class="card__header">
-					<img class="card__preview" id="farm-image" src="${path}inner/api/image/${farm_image_file_hash}" alt="Preview img">
+					<img class="card__preview" id="farm-image" src="${path}inner/api/image/${company_image_file_hash}" alt="Preview img">
 				</header>
 				<div class="card__body">
 					<div class="card__content">
-						<h3 class="card__title"><a href="#0" class="card__showmore">Farm Information</a></h3>
+						<h3 class="card__title"><a href="#0" class="card__showmore">Company Information</a></h3>
 						<div class="card__description">
-							<p>농장명 : ${fiVo.farm_name}</p>
+							<p>기업명 : ${fiVo.company_name}</p>
 		            		<p>위치 : ${fiVo.location}</p>
-	   		         		<p>규모 : ${scale}</p>
 	       		     		<p>마지막 점검일 : ${fiVo.last_check_date}</p>
 						</div>
 					</div>
@@ -527,10 +526,9 @@ p:last-child {
   
   <script>
   $(document).ready(function() {
-		var request_scale = ${fiVo.scale};
 			
 			$.ajax({
-			    url : "${path}inner/api/result/${fiVo.scale}/${farm_info_index}/${form_count}",
+			    url : "${path}inner/company/api/result/${company_info_index}/${form_count}",
 			    dataType : "json",
 			    type : "post",
 			    success: function(data) {
@@ -564,7 +562,7 @@ p:last-child {
 			        	category[data[i][1]-1] += "<tr><td>" + data[i][2] + 
 			        	"</td><td><a href='#' data-tooltip='" + data[i][5] + "'><span class='glyphicon glyphicon-info-sign' aria-hidden='true'></span></a></td><td>" + data[i][4] + "</td>" +
 			        		"<td>" + data[i][6] +"</td>" +
-			        		"<td><a href='${path}inner/api/file/" + data[i][8] + "' target='_blank'>" + data[i][7] + "</td>" + 
+			        		"<td><a href='${path}inner/company/api/file/" + data[i][8] + "' target='_blank'>" + data[i][7] + "</td>" + 
 			        		"</tr>";
 			        		
 			        	all_count[data[i][1]-1]++;
@@ -657,7 +655,7 @@ p:last-child {
   
   $(document).ready(function() {
 			$.ajax({
-			    url : "${path}inner/api/result/${farm_info_index}",
+			    url : "${path}inner/company/api/result/${company_info_index}",
 			    dataType : "json",
 			    type : "post",
 			    success: function(data) {
@@ -665,7 +663,7 @@ p:last-child {
 			    	
 			    	for(var i = 0, len = Object.keys(data).length; i < len;i++) {
 			    		console.log(data[i][2]);
-			        	code += '<div class="animated_link3"><a href="${path}inner/result/' + data[i][1] + '/' + data[i][2] + 
+			        	code += '<div class="animated_link3"><a href="${path}inner/company/result/' + data[i][1] + '/' + data[i][2] + 
 			        	'"><span data-title="' + data[i][3] + '">' + data[i][3] + '</span></a></div>';
 			        }
 

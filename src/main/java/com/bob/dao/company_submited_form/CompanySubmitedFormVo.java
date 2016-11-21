@@ -4,7 +4,7 @@ public class CompanySubmitedFormVo {
 	int index;
 	int company_info_index;
 	int form_count;
-	int check_form_info_index;
+	int company_check_form_info_index;
 	String ypn;
 	String original_file_name;
 	String file_hash;
@@ -21,12 +21,7 @@ public class CompanySubmitedFormVo {
 	public void setForm_count(int form_count) {
 		this.form_count = form_count;
 	}
-	public int getCheck_form_info_index() {
-		return check_form_info_index;
-	}
-	public void setCheck_form_info_index(int check_form_info_index) {
-		this.check_form_info_index = check_form_info_index;
-	}
+
 	public String getYpn() {
 		return ypn;
 	}
@@ -50,5 +45,11 @@ public class CompanySubmitedFormVo {
 	}
 	public void setCompany_info_index(int company_info_index) {
 		this.company_info_index = company_info_index;
+	}
+	public int getCompany_check_form_info_index() {
+		return company_check_form_info_index;
+	}
+	public void setCompany_check_form_info_index(int company_check_form_info_index) {
+		this.company_check_form_info_index = company_check_form_info_index;
 	}
 }

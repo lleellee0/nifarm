@@ -37,17 +37,17 @@ public class CompanyCheckDateDao {
 	}
 	
 	
-	public CompanyCheckDateVo selectByFarmInfoIndexAndFormCount(final int farm_info_index, final int form_count) {
+	public CompanyCheckDateVo selectByCompanyInfoIndexAndFormCount(final int company_info_index, final int form_count) {
 		sql = new StringBuffer();
 		sql.append("SELECT * FROM ");
 		sql.append("company_check_date WHERE ");
-		sql.append("`farm_info_index`=? AND `form_count`=?");
+		sql.append("`company_info_index`=? AND `form_count`=?");
 		
 		new AbstractDao() {
 			@Override
 			public void query() throws Exception {
 				pstmt = con.prepareStatement(sql.toString());
-				pstmt.setInt(1, farm_info_index);
+				pstmt.setInt(1, company_info_index);
 				pstmt.setInt(2, form_count);
 				rs = pstmt.executeQuery();
 				
@@ -63,17 +63,17 @@ public class CompanyCheckDateDao {
 		return vo;
 	}
 	
-	public List<CompanyCheckDateVo> selectByFarmInfoIndex(final int farm_info_index) {
+	public List<CompanyCheckDateVo> selectByCompanyInfoIndex(final int company_info_index) {
 		sql = new StringBuffer();
 		sql.append("SELECT * FROM ");
-		sql.append("company_check_date WHERE farm_info_index=?");
+		sql.append("company_check_date WHERE company_info_index=?");
 		
 		new AbstractDao() {
 			@Override
 			public void query() throws Exception {
 				pstmt = con.prepareStatement(sql.toString());
 
-				pstmt.setInt(1, farm_info_index);
+				pstmt.setInt(1, company_info_index);
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
@@ -123,7 +123,7 @@ public class CompanyCheckDateDao {
 	public void insert(final CompanyCheckDateVo vo) {
 		sql = new StringBuffer();
 		sql.append("INSERT INTO company_check_date ");
-		sql.append("(`farm_info_index`, `form_count`, `check_date`, `opinion`) ");
+		sql.append("(`company_info_index`, `form_count`, `check_date`, `opinion`) ");
 		sql.append("VALUES (?, ?, ?, ?)");
 		
 		new AbstractDao() {

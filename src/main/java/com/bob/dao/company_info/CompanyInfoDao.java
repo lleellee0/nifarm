@@ -14,7 +14,7 @@ public class CompanyInfoDao {
 	
 	public CompanyInfoVo selectByIndex(final int index) {
 		sql.append("SELECT * FROM ");
-		sql.append("company_info_info WHERE ");
+		sql.append("company_info WHERE ");
 		sql.append("`index`=?");
 		
 		new AbstractDao() {

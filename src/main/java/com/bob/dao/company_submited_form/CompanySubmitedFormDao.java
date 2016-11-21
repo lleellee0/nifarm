@@ -28,7 +28,7 @@ public class CompanySubmitedFormDao {
 					vo.setIndex(rs.getInt(1));
 					vo.setCompany_info_index(rs.getInt(2));
 					vo.setForm_count(rs.getInt(3));
-					vo.setCheck_form_info_index(rs.getInt(4));
+					vo.setCompany_check_form_info_index(rs.getInt(4));
 					vo.setYpn(rs.getString(5));
 					vo.setOriginal_file_name(rs.getString(6));
 					vo.setFile_hash(rs.getString(7));
@@ -54,7 +54,7 @@ public class CompanySubmitedFormDao {
 					vo.setIndex(rs.getInt(1));
 					vo.setCompany_info_index(rs.getInt(2));
 					vo.setForm_count(rs.getInt(3));
-					vo.setCheck_form_info_index(rs.getInt(4));
+					vo.setCompany_check_form_info_index(rs.getInt(4));
 					vo.setYpn(rs.getString(5));
 					vo.setOriginal_file_name(rs.getString(6));
 					vo.setFile_hash(rs.getString(7));
@@ -83,7 +83,7 @@ public class CompanySubmitedFormDao {
 					vo.setIndex(rs.getInt(1));
 					vo.setCompany_info_index(rs.getInt(2));
 					vo.setForm_count(rs.getInt(3));
-					vo.setCheck_form_info_index(rs.getInt(4));
+					vo.setCompany_check_form_info_index(rs.getInt(4));
 					vo.setYpn(rs.getString(5));
 					vo.setOriginal_file_name(rs.getString(6));
 					vo.setFile_hash(rs.getString(7));
@@ -103,7 +103,7 @@ public class CompanySubmitedFormDao {
 		sql = new StringBuffer();
 		sql.append("SELECT * FROM ");
 		sql.append("company_submited_form WHERE ");
-		sql.append("`company_info_index`=? AND `form_count`=? AND `check_form_info_index`=?");
+		sql.append("`company_info_index`=? AND `form_count`=? AND `company_check_form_info_index`=?");
 		
 		new AbstractDao() {
 			@Override
@@ -118,7 +118,7 @@ public class CompanySubmitedFormDao {
 					vo.setIndex(rs.getInt(1));
 					vo.setCompany_info_index(rs.getInt(2));
 					vo.setForm_count(rs.getInt(3));
-					vo.setCheck_form_info_index(rs.getInt(4));
+					vo.setCompany_check_form_info_index(rs.getInt(4));
 					vo.setYpn(rs.getString(5));
 					vo.setOriginal_file_name(rs.getString(6));
 					vo.setFile_hash(rs.getString(7));
@@ -161,7 +161,7 @@ public class CompanySubmitedFormDao {
 	public void insert(final CompanySubmitedFormVo vo) {
 		sql = new StringBuffer();
 		sql.append("INSERT INTO company_submited_form ");
-		sql.append("(`company_info_index`, `form_count`, `check_form_info_index`, `ypn`, `original_file_name`, `file_hash`) ");
+		sql.append("(`company_info_index`, `form_count`, `company_check_form_info_index`, `ypn`, `original_file_name`, `file_hash`) ");
 		sql.append("VALUES (?, ?, ?, ?, ?, ?)");
 		
 		new AbstractDao() {
@@ -170,7 +170,7 @@ public class CompanySubmitedFormDao {
 				pstmt = con.prepareStatement(sql.toString());
 				pstmt.setInt(1, vo.getCompany_info_index());
 				pstmt.setInt(2, vo.getForm_count());
-				pstmt.setInt(3, vo.getCheck_form_info_index());
+				pstmt.setInt(3, vo.getCompany_check_form_info_index());
 				pstmt.setString(4, vo.getYpn());
 				pstmt.setString(5, vo.getOriginal_file_name());
 				pstmt.setString(6, vo.getFile_hash());
@@ -183,7 +183,7 @@ public class CompanySubmitedFormDao {
 	public void update(final CompanySubmitedFormVo vo) {
 		sql = new StringBuffer();
 		sql.append("UPDATE company_submited_form ");
-		sql.append("SET company_info_index=?, form_count=?, check_form_info_index=?, ypn=?, original_file_name=?, file_hash=? ");
+		sql.append("SET company_info_index=?, form_count=?, company_check_form_info_index=?, ypn=?, original_file_name=?, file_hash=? ");
 		sql.append("WHERE `index`=?");
 		
 		System.out.println(sql);
@@ -194,7 +194,7 @@ public class CompanySubmitedFormDao {
 				pstmt = con.prepareStatement(sql.toString());
 				pstmt.setInt(1, vo.getCompany_info_index());
 				pstmt.setInt(2, vo.getForm_count());
-				pstmt.setInt(3, vo.getCheck_form_info_index());
+				pstmt.setInt(3, vo.getCompany_check_form_info_index());
 				pstmt.setString(4, vo.getYpn());
 				pstmt.setString(5, vo.getOriginal_file_name());
 				pstmt.setString(6, vo.getFile_hash());
@@ -253,7 +253,7 @@ public class CompanySubmitedFormDao {
 					vo.setIndex(rs.getInt(1));
 					vo.setCompany_info_index(rs.getInt(2));
 					vo.setForm_count(rs.getInt(3));
-					vo.setCheck_form_info_index(rs.getInt(4));
+					vo.setCompany_check_form_info_index(rs.getInt(4));
 					vo.setYpn(rs.getString(5));
 					vo.setOriginal_file_name(rs.getString(6));
 					vo.setFile_hash(rs.getString(7));
@@ -266,7 +266,7 @@ public class CompanySubmitedFormDao {
 	public int getCount() {
 		sql = new StringBuffer();
 		sql.append("SELECT count(*) FROM ");
-		sql.append("check_form_info");
+		sql.append("company_check_form_info");
 		
 		new AbstractDao() {
 			@Override
