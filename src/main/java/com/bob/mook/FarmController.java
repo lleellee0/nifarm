@@ -21,6 +21,8 @@ import com.bob.dao.check_date.CheckDateDao;
 import com.bob.dao.check_date.CheckDateVo;
 import com.bob.dao.check_form_info.CheckFormInfoDao;
 import com.bob.dao.check_form_info.CheckFormInfoVo;
+import com.bob.dao.company_info.CompanyInfoDao;
+import com.bob.dao.company_info.CompanyInfoVo;
 import com.bob.dao.farm_image.FarmImageDao;
 import com.bob.dao.farm_image.FarmImageVo;
 import com.bob.dao.farm_info.FarmInfoDao;
@@ -111,8 +113,24 @@ public class FarmController {
 
 		if (vo.getId() != null) { // 로그인 성공!
 			request.getSession().setAttribute("memberVo", vo);
-			response.sendRedirect(ssi.getPath() + "inner/list");
-			
+			if(vo.isAdmin() == true)
+				response.sendRedirect(ssi.getPath() + "inner/list");
+			else {
+				// 자기 농장 혹은 기업을 찾아서 접속하도록 만들기
+				
+				CompanyInfoDao cidao = new CompanyInfoDao();
+				CompanyInfoVo civo = cidao.selectByMemberIndex(vo.getIndex());
+				
+				FarmInfoDao fidao = new FarmInfoDao();
+				FarmInfoVo fivo = fidao.selectByMemberIndex(vo.getIndex());
+				
+				if(civo.getIndex() != 0)	// 기업 정보가 있는 경우
+					response.sendRedirect(ssi.getPath() + "inner/company/result/" + civo.getIndex() + "/" + civo.getCheck_count());
+				else if(fivo.getIndex() != 0)	//	농장 정보가 있는 경우
+					response.sendRedirect(ssi.getPath() + "inner/result/" + fivo.getIndex() + "/" + fivo.getCheck_count());
+				else	// 정보가 둘 다 없는 경우
+					response.sendRedirect(ssi.getPath() + "not-found-info");
+			}
 		} else { // 로그인 실패!
 			response.sendRedirect(ssi.getPath());
 		}

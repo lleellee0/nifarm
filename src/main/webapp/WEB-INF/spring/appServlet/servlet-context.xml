@@ -28,13 +28,8 @@
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/innera1231564965191/**"/>
-			<mapping path="/profile"/>
-			<mapping path="/list/**/details/**"/>
-			<beans:bean class="com.bob.interceptor.LoginInterCeptor"/>
-		</interceptor>
-		<interceptor>
-			<mapping path="/adminaaaa123/**"/>
+			<mapping path="/admin/**"/>
+			<mapping path="/inner/**"/>
 			<beans:bean class="com.bob.interceptor.AdminInterCeptor"/>
 		</interceptor>
 	</interceptors>

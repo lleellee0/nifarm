@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.bob.dao.company_info.CompanyInfoDao;
+import com.bob.dao.company_info.CompanyInfoVo;
+import com.bob.dao.farm_info.FarmInfoDao;
+import com.bob.dao.farm_info.FarmInfoVo;
 import com.bob.dao.member.MemberVo;
 import com.bob.mook.SingletonSetting;
 
@@ -30,9 +34,46 @@ public class AdminInterCeptor extends HandlerInterceptorAdapter {
 		try {
 			// 관리자가 아닐 경우
 			if (!memberVo.isAdmin()) {
-				// 홈페이지로 redirect
+				String requestUri = request.getRequestURI();
+				
+				
 				SingletonSetting ssi = SingletonSetting.getInstance();
-				response.sendRedirect(ssi.getPath());
+				
+				
+				
+				CompanyInfoDao cidao = new CompanyInfoDao();
+				CompanyInfoVo civo = cidao.selectByMemberIndex(memberVo.getIndex());
+				
+				FarmInfoDao fidao = new FarmInfoDao();
+				FarmInfoVo fivo = fidao.selectByMemberIndex(memberVo.getIndex());
+				
+				System.out.println("**** " + ssi.getPath() + "inner/result/" + fivo.getIndex() + "/" + fivo.getCheck_count());
+				System.out.println("*** " + requestUri);
+				
+				
+				if(requestUri.contains(ssi.getPath() + "inner/api/image/"))
+					return true;
+				
+
+				
+				if(civo.getIndex() != 0 && (( (ssi.getPath() + "inner/company/result/" + civo.getIndex() + "/" + civo.getCheck_count()).equals(requestUri) || 
+						(ssi.getPath() + "inner/company/api/result/" + civo.getIndex() + "/" + civo.getCheck_count() ).equals(requestUri) || 
+						(ssi.getPath() + "inner/company/api/result/" + civo.getIndex()) .equals(requestUri)  ))) {	// 자기 기업인 경우
+					//response.sendRedirect(ssi.getPath() + "inner/company/result/" + civo.getIndex() + "/" + civo.getCheck_count());
+					return true;
+				}
+				else if(fivo.getIndex() != 0 && (( (ssi.getPath() + "inner/result/" + fivo.getScale() + "/" + fivo.getIndex() + "/" + fivo.getCheck_count()).equals(requestUri) || 
+						(ssi.getPath() + "inner/result/" + fivo.getIndex() + "/" + fivo.getCheck_count()).equals(requestUri) || 
+						(ssi.getPath() + "inner/api/result/" + fivo.getIndex() ).equals(requestUri) || 
+						(ssi.getPath() + "inner/api/result/" + fivo.getScale() + "/" + fivo.getIndex() + "/" + fivo.getCheck_count() ).equals(requestUri))) ) {	//	자기 농장인 경우
+					//response.sendRedirect(ssi.getPath() + "inner/result/" + fivo.getIndex() + "/" + fivo.getCheck_count());
+					return true;
+				}
+				else	// 정보가 둘 다 없는 경우
+					response.sendRedirect(ssi.getPath());
+				// 홈페이지로 redirect
+				
+				
 
 				return false;
 			}
