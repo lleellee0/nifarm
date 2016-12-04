@@ -5,14 +5,14 @@ import org.springframework.ui.Model;
 public class SingletonSetting {
 	private static SingletonSetting instance = new SingletonSetting();
 	
-	private String path = "/";
+    private String path = "/mook/";
 	
 	private String databaseUrl = "jdbc:mysql://localhost:3306/";
 	private String databaseName = "nifarm" + "?useUnicode=true&characterEncoding=utf8";
 	private String userName = "root";
-	private String userPassword = "wjdanr12"; // Clab에 있는 노트북
-	private String filePath = "C:\\Users\\mug\\Documents\\nifarm\\files\\";
-	
+    private String userPassword = "mysql123"; // Clab에 있는 노트북
+    private String filePath = "C:\\Users\\jun\\Documents\\nifarm_project\\src\\main\\webapp\\WEB-INF\\files\\";
+
 	private int pageSize = 15;
 	
 	
