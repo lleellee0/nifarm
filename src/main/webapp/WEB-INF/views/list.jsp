@@ -510,21 +510,18 @@ function makeForm(scale) {
 		    success: function(data) {
 		        $('#scale-target').empty();
 		        var code = "";
-		        var category = new Array(13);
+		        var category = new Array(10);
 		        var table_header = "<tr><th style='width:40%;'>세부내용</th><th style='width:5%;'></th><th style='width:30%;'>점검기준</th><th style='width:5%;'>Y</th><th style='width:5%;'>P</th><th style='width:5%;'>N</th><th style='width:10%;'></th></tr>";
-		        category[0] += "<tr><td style='font-size:21px;padding-top:20px;'>1. 보안정책<td></tr>" + table_header;
-		        category[1] += "<tr><td style='font-size:21px;padding-top:20px;'>2. 정보보호조직<td></tr>" + table_header;
-		        category[2] += "<tr><td style='font-size:21px;padding-top:20px;'>3. 자산관리<td></tr>" + table_header;
-		        category[3] += "<tr><td style='font-size:21px;padding-top:20px;'>4. 인력보안<td></tr>" + table_header;
-		        category[4] += "<tr><td style='font-size:21px;padding-top:20px;'>5. 물리환경적보안<td></tr>" + table_header;
-		        category[5] += "<tr><td style='font-size:21px;padding-top:20px;'>6. 통신운영관리<td></tr>" + table_header;
-		        category[6] += "<tr><td style='font-size:21px;padding-top:20px;'>7. 접근통제<td></tr>" + table_header;
-		        category[7] += "<tr><td style='font-size:21px;padding-top:20px;'>8. 정보시스템도입 및 개발과 유지보수<td></tr>" + table_header;
-		        category[8] += "<tr><td style='font-size:21px;padding-top:20px;'>9. 정보보안 사고관리<td></tr>" + table_header;
-		        category[9] += "<tr><td style='font-size:21px;padding-top:20px;'>10. 업무연속성관리<td></tr>" + table_header;
-		        category[10] += "<tr><td style='font-size:21px;padding-top:20px;'>11. 암호통제<td></tr>" + table_header;
-		        category[11] += "<tr><td style='font-size:21px;padding-top:20px;'>12. 인증<td></tr>" + table_header;
-		        category[12] += "<tr><td style='font-size:21px;padding-top:20px;'>13. 시큐어 코딩<td></tr>" + table_header;
+		        category[0] += "<tr><td style='font-size:21px;padding-top:20px;'>1. 보안 지침<td></tr>" + table_header;
+		        category[1] += "<tr><td style='font-size:21px;padding-top:20px;'>2. 인적보안<td></tr>" + table_header;
+		        category[2] += "<tr><td style='font-size:21px;padding-top:20px;'>3. 자산 관리<td></tr>" + table_header;
+		        category[3] += "<tr><td style='font-size:21px;padding-top:20px;'>4. 물리환경적보안<td></tr>" + table_header;
+		        category[4] += "<tr><td style='font-size:21px;padding-top:20px;'>5. 센서 및 엑추에이터 보안<td></tr>" + table_header;
+		        category[5] += "<tr><td style='font-size:21px;padding-top:20px;'>6. 영상보안(IP카메라)<td></tr>" + table_header;
+		        category[6] += "<tr><td style='font-size:21px;padding-top:20px;'>7. 네트워크보안(무선AP)<td></tr>" + table_header;
+		        category[7] += "<tr><td style='font-size:21px;padding-top:20px;'>8. 제어 PC 보안<td></tr>" + table_header;
+		        category[8] += "<tr><td style='font-size:21px;padding-top:20px;'>9. 연속성 관리<td></tr>" + table_header;
+		        category[9] += "<tr><td style='font-size:21px;padding-top:20px;'>10. 보안 교육<td></tr>" + table_header;
 		        console.log(Object.keys(data).length);
 		        for(var i = 0, len = Object.keys(data).length; i < len;i++) {
 		        	console.log(data[i][1]);
@@ -536,7 +533,7 @@ function makeForm(scale) {
 		        		"<td><div class='filebox'><label for='file_" + data[i][0] + "'>업로드</label><input type='file' id='file_" + data[i][0] + "' name='file_" + data[i][0] + "' onchange='fileUpload(this);'></td>" + 
 		        		"</tr>";
 		        }
-		        for(var i = 0; i < 13; i++) {
+		        for(var i = 0; i < 10; i++) {
 		        	code += category[i];
 		        }
 		        

@@ -164,7 +164,7 @@
 <body>
 <%@include file="includes/navbar.jsp" %>
 
-<section class="engine"><a rel="external" href="https://mobirise.com">easy html web site building software download</a></section><section class="mbr-section extTable1 mbr-after-navbar" id="extTable1-m" style="background-color: rgb(242, 130, 129); padding-top: 120px; padding-bottom: 120px;">
+<section class="engine"><a rel="external" href="https://mobirise.com">easy html web site building software download</a></section><section class="mbr-section extTable1 mbr-after-navbar" id="extTable1-m" style="background-color: rgb(154, 195, 123); padding-top: 120px; padding-bottom: 120px;">
 
     
 
@@ -226,7 +226,7 @@
     
 </section>
 
-<section class="mbr-section article mbr-section__container" id="content6-d" style="background-color: rgb(255, 255, 255); padding-top: 100px; padding-bottom: 100px;">
+<section class="mbr-section article mbr-section__container" id="content6-d" style="background-color: rgb(64, 167, 57); padding-top: 100px; padding-bottom: 100px;">
 
     <div class="container">
     	<div class="row" style="text-align:center;">
@@ -275,7 +275,7 @@
 
 </section>
 
-<section class="mbr-section article mbr-section__container" id="content6-d" style="background-color: rgb(2, 117, 216); padding-top: 100px; padding-bottom: 100px;">
+<section class="mbr-section article mbr-section__container" id="content6-d" style="background-color: rgb(255, 255, 255); padding-top: 100px; padding-bottom: 100px;">
 
     <div class="container">
     	<div class="row" style="text-align:center;">
@@ -336,20 +336,6 @@ var availableTags = new Array();
 			}
 		});
 	});
-
-  $('#farmId').on("focusout", function(event) {
-	  $.ajax({
-			url : "${path}inner/admin/api/farm-info-by-farm-id/" + $(event.target).val(),
-			type : "post",
-			success : function(data) {
-				$('#farmName').val(data[0][1]);
-				$('#location').val(data[0][2]);
-				$('#scale').val(data[0][3]);
-				
-				makeForm(data[0][3]);
-			}
-		});
-  });
   
 </script>
   
