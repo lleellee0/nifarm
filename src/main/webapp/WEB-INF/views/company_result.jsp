@@ -496,7 +496,7 @@ p:last-child {
 					<div class="card__content">
 						<h3 class="card__title"><a href="#0" class="card__showmore">총평</a></h3>
 						<div class="card__description">
-							<p id="opinion">${cdVo.opinion}</p>
+							<p id="opinion" style="word-break:break-all;">${cdVo.opinion}</p>
 							<table id="reviewTable" class="table" style="width:100%;">
 								<thead>
 									<tr>
